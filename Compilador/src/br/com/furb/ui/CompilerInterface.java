@@ -128,6 +128,7 @@ public class CompilerInterface extends JFrame {
 		textEditor.setBorder(new NumberedBorder());
 
 		JTextArea textMsg = new JTextArea();
+		textMsg.setEditable(false);
 		textMsg.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelCentral.add(textMsg);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
