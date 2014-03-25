@@ -8,22 +8,31 @@ import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.JTextArea;
-import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 @SuppressWarnings("serial")
 public class CompilerInterface extends JFrame {
+
+	private JButton btnNovo;
+	private JButton btnAbrir;
+	private JButton btnSalvar;
+	private JButton btnCopiar;
+	private JButton btnColar;
+	private JButton btnRecortar;
+	private JButton btnCompilar;
+	private JButton btnGerarCod;
+	private JButton btnEquipe;
+	private JLabel lblStatus;
+	private JTextArea textEditor;
+	private JTextArea textMsg;
+	private JPanel contentPane;
 	
 	public static final String caminhoIcones = "././././././Images/";
-
-	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
@@ -61,77 +70,181 @@ public class CompilerInterface extends JFrame {
 		panelFerramentas.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelFerramentas.setLayout(new GridLayout(0, 9, 0, 0));
 
-		JButton btnNovo = new JButton("novo [ctrl-n]");
+		btnNovo = new JButton("novo [ctrl-n]");
 		btnNovo.setIcon(new ImageIcon(caminhoIcones + "newFile.png"));
 		btnNovo.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnNovo.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnNovo);
 
-		JButton btnAbrir = new JButton("abrir [ctrl-a]");
+		btnAbrir = new JButton("abrir [ctrl-a]");
 		btnAbrir.setIcon(new ImageIcon(caminhoIcones + "openFile.png"));
 		btnAbrir.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnAbrir.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnAbrir);
 
-		JButton btnSalvar = new JButton("salvar [ctrl-s]");
+		btnSalvar = new JButton("salvar [ctrl-s]");
 		btnSalvar.setIcon(new ImageIcon(
 				"././././././Images/saveFile.png"));
 		btnSalvar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnSalvar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnSalvar);
 
-		JButton btnCopiar = new JButton("copiar [ctrl-c]");
+		btnCopiar = new JButton("copiar [ctrl-c]");
 		btnCopiar.setIcon(new ImageIcon(caminhoIcones + "copy.png"));
 		btnCopiar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCopiar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnCopiar);
 
-		JButton btnColar = new JButton("colar [ctrl-v]");
+		btnColar = new JButton("colar [ctrl-v]");
 		btnColar.setIcon(new ImageIcon(caminhoIcones + "paste.png"));
 		btnColar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnColar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnColar);
 
-		JButton btnRecortar = new JButton("recortar [ctrl-x]");
+		btnRecortar = new JButton("recortar [ctrl-x]");
 		btnRecortar.setIcon(new ImageIcon(caminhoIcones + "cut.png"));
 		btnRecortar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnRecortar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnRecortar);
 
-		JButton btnCompilar = new JButton("compilar [F8]");
+		btnCompilar = new JButton("compilar [F8]");
 		btnCompilar.setIcon(new ImageIcon(caminhoIcones + "compile.png"));
 		btnCompilar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCompilar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnCompilar);
 
-		JButton btnGerarCod = new JButton("gerar c\u00F3digo [F9]");
+		btnGerarCod = new JButton("gerar c\u00F3digo [F9]");
 		btnGerarCod.setIcon(new ImageIcon(caminhoIcones + "geradorCod.png"));
 		btnGerarCod.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnGerarCod.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnGerarCod);
 
-		JButton btnEquipe = new JButton("equipe [F1]");
+		btnEquipe = new JButton("equipe [F1]");
 		btnEquipe.setIcon(new ImageIcon(caminhoIcones + "group.png"));
 		btnEquipe.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnEquipe.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnEquipe);
 
-		JLabel lblStatus = new JLabel("N\u00E3o modificado");
+		lblStatus = new JLabel("N\u00E3o modificado");
 		panelCompilador.add(lblStatus, BorderLayout.SOUTH);
 
 		JPanel panelCentral = new JPanel();
 		panelCompilador.add(panelCentral, BorderLayout.CENTER);
 		panelCentral.setLayout(new GridLayout(2, 1, 0, 0));
 
-		JTextArea textEditor = new JTextArea();
+		textEditor = new JTextArea();
 		panelCentral.add(textEditor);
 		textEditor.setBorder(new NumberedBorder());
 
-		JTextArea textMsg = new JTextArea();
+		textMsg = new JTextArea();
 		textMsg.setEditable(false);
 		textMsg.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelCentral.add(textMsg);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	}
+
+	public JButton getBtnNovo() {
+		return btnNovo;
+	}
+
+	public void setBtnNovo(JButton btnNovo) {
+		this.btnNovo = btnNovo;
+	}
+
+	public JButton getBtnAbrir() {
+		return btnAbrir;
+	}
+
+	public void setBtnAbrir(JButton btnAbrir) {
+		this.btnAbrir = btnAbrir;
+	}
+
+	public JButton getBtnSalvar() {
+		return btnSalvar;
+	}
+
+	public void setBtnSalvar(JButton btnSalvar) {
+		this.btnSalvar = btnSalvar;
+	}
+
+	public JButton getBtnCopiar() {
+		return btnCopiar;
+	}
+
+	public void setBtnCopiar(JButton btnCopiar) {
+		this.btnCopiar = btnCopiar;
+	}
+
+	public JButton getBtnColar() {
+		return btnColar;
+	}
+
+	public void setBtnColar(JButton btnColar) {
+		this.btnColar = btnColar;
+	}
+
+	public JButton getBtnRecortar() {
+		return btnRecortar;
+	}
+
+	public void setBtnRecortar(JButton btnRecortar) {
+		this.btnRecortar = btnRecortar;
+	}
+
+	public JButton getBtnCompilar() {
+		return btnCompilar;
+	}
+
+	public void setBtnCompilar(JButton btnCompilar) {
+		this.btnCompilar = btnCompilar;
+	}
+
+	public JButton getBtnGerarCod() {
+		return btnGerarCod;
+	}
+
+	public void setBtnGerarCod(JButton btnGerarCod) {
+		this.btnGerarCod = btnGerarCod;
+	}
+
+	public JButton getBtnEquipe() {
+		return btnEquipe;
+	}
+
+	public void setBtnEquipe(JButton btnEquipe) {
+		this.btnEquipe = btnEquipe;
+	}
+
+	public JLabel getLblStatus() {
+		return lblStatus;
+	}
+
+	public void setLblStatus(JLabel lblStatus) {
+		this.lblStatus = lblStatus;
+	}
+
+	public JTextArea getTextEditor() {
+		return textEditor;
+	}
+
+	public void setTextEditor(JTextArea textEditor) {
+		this.textEditor = textEditor;
+	}
+
+	public JTextArea getTextMsg() {
+		return textMsg;
+	}
+
+	public void setTextMsg(JTextArea textMsg) {
+		this.textMsg = textMsg;
+	}
+
+	public JPanel getContentPane() {
+		return contentPane;
+	}
+
+	public void setContentPane(JPanel contentPane) {
+		this.contentPane = contentPane;
 	}
 
 }
