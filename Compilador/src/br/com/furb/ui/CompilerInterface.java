@@ -147,104 +147,52 @@ public class CompilerInterface extends JFrame {
 		return btnNovo;
 	}
 
-	public void setBtnNovo(JButton btnNovo) {
-		this.btnNovo = btnNovo;
-	}
-
 	public JButton getBtnAbrir() {
 		return btnAbrir;
-	}
-
-	public void setBtnAbrir(JButton btnAbrir) {
-		this.btnAbrir = btnAbrir;
 	}
 
 	public JButton getBtnSalvar() {
 		return btnSalvar;
 	}
 
-	public void setBtnSalvar(JButton btnSalvar) {
-		this.btnSalvar = btnSalvar;
-	}
-
 	public JButton getBtnCopiar() {
 		return btnCopiar;
-	}
-
-	public void setBtnCopiar(JButton btnCopiar) {
-		this.btnCopiar = btnCopiar;
 	}
 
 	public JButton getBtnColar() {
 		return btnColar;
 	}
 
-	public void setBtnColar(JButton btnColar) {
-		this.btnColar = btnColar;
-	}
-
 	public JButton getBtnRecortar() {
 		return btnRecortar;
-	}
-
-	public void setBtnRecortar(JButton btnRecortar) {
-		this.btnRecortar = btnRecortar;
 	}
 
 	public JButton getBtnCompilar() {
 		return btnCompilar;
 	}
 
-	public void setBtnCompilar(JButton btnCompilar) {
-		this.btnCompilar = btnCompilar;
-	}
-
 	public JButton getBtnGerarCod() {
 		return btnGerarCod;
-	}
-
-	public void setBtnGerarCod(JButton btnGerarCod) {
-		this.btnGerarCod = btnGerarCod;
 	}
 
 	public JButton getBtnEquipe() {
 		return btnEquipe;
 	}
 
-	public void setBtnEquipe(JButton btnEquipe) {
-		this.btnEquipe = btnEquipe;
-	}
-
 	public JLabel getLblStatus() {
 		return lblStatus;
-	}
-
-	public void setLblStatus(JLabel lblStatus) {
-		this.lblStatus = lblStatus;
 	}
 
 	public JTextArea getTextEditor() {
 		return textEditor;
 	}
 
-	public void setTextEditor(JTextArea textEditor) {
-		this.textEditor = textEditor;
-	}
-
 	public JTextArea getTextMsg() {
 		return textMsg;
-	}
-
-	public void setTextMsg(JTextArea textMsg) {
-		this.textMsg = textMsg;
 	}
 
 	public JPanel getContentPane() {
 		return contentPane;
 	}
-
-	public void setContentPane(JPanel contentPane) {
-		this.contentPane = contentPane;
-	}
-
+	
 }
