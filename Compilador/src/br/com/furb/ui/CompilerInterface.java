@@ -20,6 +20,8 @@ import java.awt.Insets;
 
 @SuppressWarnings("serial")
 public class CompilerInterface extends JFrame {
+	
+	public static final String caminhoIcones = "././././././Images/";
 
 	private JPanel contentPane;
 
@@ -60,58 +62,56 @@ public class CompilerInterface extends JFrame {
 		panelFerramentas.setLayout(new GridLayout(0, 9, 0, 0));
 
 		JButton btnNovo = new JButton("novo [ctrl-n]");
-		btnNovo.setIcon(new ImageIcon(".\\.\\.\\.\\.\\.\\Images\\newFile.png"));
+		btnNovo.setIcon(new ImageIcon(caminhoIcones + "newFile.png"));
 		btnNovo.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnNovo.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnNovo);
 
 		JButton btnAbrir = new JButton("abrir [ctrl-a]");
-		btnAbrir.setIcon(new ImageIcon(".\\.\\.\\.\\.\\.\\Images\\openFile.png"));
+		btnAbrir.setIcon(new ImageIcon(caminhoIcones + "openFile.png"));
 		btnAbrir.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnAbrir.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnAbrir);
 
 		JButton btnSalvar = new JButton("salvar [ctrl-s]");
 		btnSalvar.setIcon(new ImageIcon(
-				".\\.\\.\\.\\.\\.\\Images\\saveFile.png"));
+				"././././././Images/saveFile.png"));
 		btnSalvar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnSalvar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnSalvar);
 
 		JButton btnCopiar = new JButton("copiar [ctrl-c]");
-		btnCopiar.setIcon(new ImageIcon(".\\.\\.\\.\\.\\.\\Images\\copy.png"));
+		btnCopiar.setIcon(new ImageIcon(caminhoIcones + "copy.png"));
 		btnCopiar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCopiar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnCopiar);
 
 		JButton btnColar = new JButton("colar [ctrl-v]");
-		btnColar.setIcon(new ImageIcon(".\\.\\.\\.\\.\\.\\Images\\paste.png"));
+		btnColar.setIcon(new ImageIcon(caminhoIcones + "paste.png"));
 		btnColar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnColar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnColar);
 
 		JButton btnRecortar = new JButton("recortar [ctrl-x]");
-		btnRecortar.setIcon(new ImageIcon(".\\.\\.\\.\\.\\.\\Images\\cut.png"));
+		btnRecortar.setIcon(new ImageIcon(caminhoIcones + "cut.png"));
 		btnRecortar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnRecortar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnRecortar);
 
 		JButton btnCompilar = new JButton("compilar [F8]");
-		btnCompilar.setIcon(new ImageIcon(
-				".\\.\\.\\.\\.\\.\\Images\\compile.png"));
+		btnCompilar.setIcon(new ImageIcon(caminhoIcones + "compile.png"));
 		btnCompilar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCompilar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnCompilar);
 
 		JButton btnGerarCod = new JButton("gerar c\u00F3digo [F9]");
-		// TODO achar icone para gerar código
-		// btnGerarCod.setIcon(new ImageIcon(".\\.\\.\\.\\.\\.\\Images\\.png"));
+		btnGerarCod.setIcon(new ImageIcon(caminhoIcones + "geradorCod.png"));
 		btnGerarCod.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnGerarCod.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnGerarCod);
 
 		JButton btnEquipe = new JButton("equipe [F1]");
-		btnEquipe.setIcon(new ImageIcon(".\\.\\.\\.\\.\\.\\Images\\group.png"));
+		btnEquipe.setIcon(new ImageIcon(caminhoIcones + "group.png"));
 		btnEquipe.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnEquipe.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelFerramentas.add(btnEquipe);
