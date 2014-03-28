@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -59,7 +57,6 @@ public class CompilerInterface extends JFrame {
 	private JPanel panelEditor;
 	private JPanel panelMsg;
 	private JScrollPane scrollPaneMsg;
-	private OpenFile openFile;
 
 	/**
 	 * Launch the application.
@@ -126,23 +123,6 @@ public class CompilerInterface extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				btnAbrir.executaAcao(getInstance());
-			}
-		});
-		btnAbrir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				openFile = new OpenFile();
-				String caminho = openFile.OpenFilePanel();
-				String texto = "";
-				if (!caminho.equalsIgnoreCase("")
-						&& caminho.toLowerCase().endsWith(".cfj")) {
-					texto = openFile.textFileRead(caminho);
-					lbFilePath.setText(caminho);
-					textEditor.setText(texto);
-					lbStatus.setText("Não modificado");
-
-				} else {
-					textMsg.setText("Arquivo inválido!");
-				}
 			}
 		});
 		btnAbrir.setIcon(new ImageIcon(caminhoIcones + "openFile.png"));

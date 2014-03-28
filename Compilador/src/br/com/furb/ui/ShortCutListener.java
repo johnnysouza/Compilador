@@ -3,8 +3,6 @@ package br.com.furb.ui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JOptionPane;
-
 import br.com.furb.ui.barraFerramentas.botoes.BotaoAbrir;
 import br.com.furb.ui.barraFerramentas.botoes.BotaoColar;
 import br.com.furb.ui.barraFerramentas.botoes.BotaoCompilar;
