@@ -16,9 +16,11 @@ import br.com.furb.ui.barraFerramentas.botoes.BotaoSalvar;
 public class ShortCutListener implements KeyListener {
 	
 	private CompilerInterface compUi;
+	private String textEditor;
 	
 	public ShortCutListener (CompilerInterface compUi) {
 		this.compUi = compUi;
+		textEditor = "";
 	}
 
 	@Override
@@ -69,7 +71,11 @@ public class ShortCutListener implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
+		if (!textEditor.equalsIgnoreCase(compUi.getTextEditor().getText())) {
+			compUi.getLbStatus().setText("Modificado");
+		} else {
+			compUi.getLbStatus().setText("Não modificado");
+		}
 		
 	}
 
@@ -79,4 +85,12 @@ public class ShortCutListener implements KeyListener {
 		
 	}
 
+	public String getTextoEditor() {
+		return textEditor;
+	}
+
+	public void setTextoEditor(String textEditor) {
+		this.textEditor = textEditor;
+	}
+	
 }

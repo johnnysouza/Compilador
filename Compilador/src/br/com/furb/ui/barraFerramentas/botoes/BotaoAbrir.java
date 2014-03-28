@@ -35,11 +35,11 @@ public class BotaoAbrir extends JButton implements Acao {
 			filePath = "";
 		}
 		String texto = "";
-		if (!filePath.equalsIgnoreCase("")
-				&& filePath.toLowerCase().endsWith(".cfj")) {
+		if (!filePath.equalsIgnoreCase("")) {
 			texto = textFileRead(filePath);
 			frame.getLbFilePath().setText(filePath);
 			frame.getTextEditor().setText(texto);
+			frame.getKeyListener().setTextoEditor("");
 			frame.getLbStatus().setText("Não modificado");
 		} else {
 			frame.getTextMsg().setText("Arquivo inválido!");
@@ -66,7 +66,7 @@ public class BotaoAbrir extends JButton implements Acao {
 				}
 			}
 		}
-		
+
 		return text;
 	}
 }

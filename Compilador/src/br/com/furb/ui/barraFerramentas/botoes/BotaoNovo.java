@@ -21,6 +21,7 @@ public class BotaoNovo extends JButton implements Acao {
 		frame.getTextEditor().setText("");
 		frame.getTextMsg().setText("");
 		frame.getLbFilePath().setText("");
+		frame.getKeyListener().setTextoEditor("");
 		frame.getLbStatus().setText("Não modificado");
 	}
 }

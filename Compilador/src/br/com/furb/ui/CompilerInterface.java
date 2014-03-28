@@ -49,6 +49,7 @@ public class CompilerInterface extends JFrame {
 	private final JTextArea textEditor;
 	private final JTextArea textMsg;
 	private final JPanel contentPane;
+	private final KeyListener keyListener;
 
 	public static final String caminhoIcones = "././././././Images/";
 	private JPanel panelFooter;
@@ -80,7 +81,7 @@ public class CompilerInterface extends JFrame {
 	 */
 	public CompilerInterface() {
 		Font fonte = new Font("Dialog", Font.BOLD, 11);
-		KeyListener keyListener = new ShortCutListener(this);
+		keyListener = new ShortCutListener(this);
 		addKeyListener(keyListener);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -351,6 +352,13 @@ public class CompilerInterface extends JFrame {
 
 	public JLabel getLbFilePath() {
 		return lbFilePath;
+	}
+	
+	public ShortCutListener getKeyListener() {
+		if (keyListener instanceof ShortCutListener) {
+			return (ShortCutListener) keyListener;
+		}
+		return new ShortCutListener(this);
 	}
 
 }
