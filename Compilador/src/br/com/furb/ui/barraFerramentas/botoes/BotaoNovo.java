@@ -18,6 +18,9 @@ public class BotaoNovo extends JButton implements Acao {
 
 	@Override
 	public void executaAcao(CompilerInterface frame) {
-		// FIXME Implementar funcao
+		frame.getTextEditor().setText("");
+		frame.getTextMsg().setText("");
+		frame.getLbFilePath().setText("");
+		frame.getLbStatus().setText("Não modificado");
 	}
 }
