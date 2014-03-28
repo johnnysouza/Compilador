@@ -8,12 +8,16 @@ import br.com.furb.ui.barraFerramentas.acao.Acao;
 public class BotaoRecortar extends JButton implements Acao {
 	private static final long serialVersionUID = 1L;
 
+	public BotaoRecortar() {
+		super();
+	}
+	
 	public BotaoRecortar(String texto) {
 		super(texto);
 	}
 
 	@Override
 	public void executaAcao(CompilerInterface frame) {
-		// FIXME Implementar funcao
+		frame.getTextEditor().cut();
 	}
 }

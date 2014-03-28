@@ -6,12 +6,11 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -26,22 +25,32 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import br.com.furb.ui.barraFerramentas.botoes.BotaoAbrir;
+import br.com.furb.ui.barraFerramentas.botoes.BotaoColar;
+import br.com.furb.ui.barraFerramentas.botoes.BotaoCompilar;
+import br.com.furb.ui.barraFerramentas.botoes.BotaoCopiar;
+import br.com.furb.ui.barraFerramentas.botoes.BotaoEquipe;
+import br.com.furb.ui.barraFerramentas.botoes.BotaoGerarCodigo;
+import br.com.furb.ui.barraFerramentas.botoes.BotaoNovo;
+import br.com.furb.ui.barraFerramentas.botoes.BotaoRecortar;
+import br.com.furb.ui.barraFerramentas.botoes.BotaoSalvar;
+
 @SuppressWarnings("serial")
 public class CompilerInterface extends JFrame {
 
-	private JButton btnNovo;
-	private JButton btnAbrir;
-	private JButton btnSalvar;
-	private JButton btnCopiar;
-	private JButton btnColar;
-	private JButton btnRecortar;
-	private JButton btnCompilar;
-	private JButton btnGerarCod;
-	private JButton btnEquipe;
-	private JLabel lbStatus;
-	private JTextArea textEditor;
-	private JTextArea textMsg;
-	private JPanel contentPane;
+	private final BotaoNovo btnNovo;
+	private final BotaoAbrir btnAbrir;
+	private final BotaoSalvar btnSalvar;
+	private final BotaoCopiar btnCopiar;
+	private final BotaoColar btnColar;
+	private final BotaoRecortar btnRecortar;
+	private final BotaoCompilar btnCompilar;
+	private final BotaoGerarCodigo btnGerarCod;
+	private final BotaoEquipe btnEquipe;
+	private final JLabel lbStatus;
+	private final JTextArea textEditor;
+	private final JTextArea textMsg;
+	private final JPanel contentPane;
 
 	public static final String caminhoIcones = "././././././Images/";
 	private JPanel panelFooter;
@@ -57,6 +66,7 @@ public class CompilerInterface extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					CompilerInterface frame = new CompilerInterface();
@@ -97,7 +107,13 @@ public class CompilerInterface extends JFrame {
 		panelFerramentas.setLayout(new GridLayout(0, 9, 0, 0));
 		panelFerramentas.addKeyListener(keyListener);
 
-		btnNovo = new JButton("novo [ctrl-n]");
+		btnNovo = new BotaoNovo("novo [ctrl-n]");
+		btnNovo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnNovo.executaAcao(getInstance());
+			}
+		});
 		btnNovo.setIcon(new ImageIcon(caminhoIcones + "newFile.png"));
 		btnNovo.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnNovo.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -105,7 +121,13 @@ public class CompilerInterface extends JFrame {
 		btnNovo.setFont(fonte);
 		panelFerramentas.add(btnNovo);
 
-		btnAbrir = new JButton("abrir [ctrl-a]");
+		btnAbrir = new BotaoAbrir("abrir [ctrl-a]");
+		btnAbrir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnAbrir.executaAcao(getInstance());
+			}
+		});
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openFile = new OpenFile();
@@ -130,7 +152,14 @@ public class CompilerInterface extends JFrame {
 		btnAbrir.setFont(fonte);
 		panelFerramentas.add(btnAbrir);
 
-		btnSalvar = new JButton("salvar [ctrl-s]");
+		btnSalvar = new BotaoSalvar("salvar [ctrl-s]");
+		btnSalvar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnSalvar.executaAcao(getInstance());
+			}
+
+		});
 		btnSalvar.setIcon(new ImageIcon(caminhoIcones + "saveFile.png"));
 		btnSalvar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnSalvar.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -138,7 +167,13 @@ public class CompilerInterface extends JFrame {
 		btnSalvar.setFont(fonte);
 		panelFerramentas.add(btnSalvar);
 
-		btnCopiar = new JButton("copiar [ctrl-c]");
+		btnCopiar = new BotaoCopiar("copiar [ctrl-c]");
+		btnCopiar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnCopiar.executaAcao(getInstance());
+			}
+		});
 		btnCopiar.setIcon(new ImageIcon(caminhoIcones + "copy.png"));
 		btnCopiar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCopiar.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -146,7 +181,13 @@ public class CompilerInterface extends JFrame {
 		btnCopiar.setFont(fonte);
 		panelFerramentas.add(btnCopiar);
 
-		btnColar = new JButton("colar [ctrl-v]");
+		btnColar = new BotaoColar("colar [ctrl-v]");
+		btnColar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnColar.executaAcao(getInstance());
+			}
+		});
 		btnColar.setIcon(new ImageIcon(caminhoIcones + "paste.png"));
 		btnColar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnColar.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -154,7 +195,13 @@ public class CompilerInterface extends JFrame {
 		btnColar.setFont(fonte);
 		panelFerramentas.add(btnColar);
 
-		btnRecortar = new JButton("recortar [ctrl-x]");
+		btnRecortar = new BotaoRecortar("recortar [ctrl-x]");
+		btnRecortar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnRecortar.executaAcao(getInstance());
+			}
+		});
 		btnRecortar.setIcon(new ImageIcon(caminhoIcones + "cut.png"));
 		btnRecortar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnRecortar.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -162,7 +209,13 @@ public class CompilerInterface extends JFrame {
 		btnRecortar.setFont(fonte);
 		panelFerramentas.add(btnRecortar);
 
-		btnCompilar = new JButton("compilar [F8]");
+		btnCompilar = new BotaoCompilar("compilar [F8]");
+		btnCompilar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnCompilar.executaAcao(getInstance());
+			}
+		});
 		btnCompilar.setIcon(new ImageIcon(caminhoIcones + "compile.png"));
 		btnCompilar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCompilar.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -170,7 +223,13 @@ public class CompilerInterface extends JFrame {
 		btnCompilar.setFont(fonte);
 		panelFerramentas.add(btnCompilar);
 
-		btnGerarCod = new JButton("gerar c\u00F3digo [F9]");
+		btnGerarCod = new BotaoGerarCodigo("gerar c\u00F3digo [F9]");
+		btnGerarCod.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnGerarCod.executaAcao(getInstance());
+			}
+		});
 		btnGerarCod.setIcon(new ImageIcon(caminhoIcones + "geradorCod.png"));
 		btnGerarCod.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnGerarCod.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -178,7 +237,13 @@ public class CompilerInterface extends JFrame {
 		btnGerarCod.setFont(fonte);
 		panelFerramentas.add(btnGerarCod);
 
-		btnEquipe = new JButton("equipe [F1]");
+		btnEquipe = new BotaoEquipe("equipe [F1]");
+		btnEquipe.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnEquipe.executaAcao(getInstance());
+			}
+		});
 		btnEquipe.setIcon(new ImageIcon(caminhoIcones + "group.png"));
 		btnEquipe.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnEquipe.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -241,6 +306,11 @@ public class CompilerInterface extends JFrame {
 		panelFooter.add(lbFilePath);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	}
+	
+	private CompilerInterface getInstance() {
+		return this;
+	}
+
 
 	public JButton getBtnNovo() {
 		return btnNovo;
@@ -278,10 +348,6 @@ public class CompilerInterface extends JFrame {
 		return btnEquipe;
 	}
 
-	public JLabel getLblStatus() {
-		return lbStatus;
-	}
-
 	public JTextArea getTextEditor() {
 		return textEditor;
 	}
@@ -290,6 +356,7 @@ public class CompilerInterface extends JFrame {
 		return textMsg;
 	}
 
+	@Override
 	public JPanel getContentPane() {
 		return contentPane;
 	}

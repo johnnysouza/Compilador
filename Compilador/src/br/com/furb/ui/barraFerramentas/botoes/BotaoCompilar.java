@@ -8,12 +8,16 @@ import br.com.furb.ui.barraFerramentas.acao.Acao;
 public class BotaoCompilar extends JButton implements Acao {
 	private static final long serialVersionUID = 1L;
 
+	public BotaoCompilar() {
+		super();
+	}
+	
 	public BotaoCompilar(String texto) {
 		super(texto);
 	}
 
 	@Override
 	public void executaAcao(CompilerInterface frame) {
-		// FIXME Implementar funcao
+		frame.getTextMsg().append("Compilador não implementado ainda.\n");
 	}
 }

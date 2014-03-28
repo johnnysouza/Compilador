@@ -8,6 +8,10 @@ import br.com.furb.ui.barraFerramentas.acao.Acao;
 public class BotaoNovo extends JButton implements Acao {
 	private static final long serialVersionUID = 1L;
 
+	public BotaoNovo() {
+		super();
+	}
+	
 	public BotaoNovo(String texto) {
 		super(texto);
 	}
