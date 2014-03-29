@@ -11,13 +11,13 @@ public class BotaoGerarCodigo extends JButton implements Acao {
 	public BotaoGerarCodigo() {
 		super();
 	}
-	
+
 	public BotaoGerarCodigo(String texto) {
 		super(texto);
 	}
 
 	@Override
 	public void executaAcao(CompilerInterface frame) {
-		frame.getTextMsg().append("Gerador de código não implementado ainda.\n");
+		frame.getTextMsg().setText("Gerador de código não implementado ainda.\n");
 	}
 }

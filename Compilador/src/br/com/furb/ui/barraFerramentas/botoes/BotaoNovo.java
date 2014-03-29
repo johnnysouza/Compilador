@@ -2,6 +2,7 @@ package br.com.furb.ui.barraFerramentas.botoes;
 
 import javax.swing.JButton;
 
+import br.com.furb.enumeracao.EStatus;
 import br.com.furb.ui.CompilerInterface;
 import br.com.furb.ui.barraFerramentas.acao.Acao;
 
@@ -11,7 +12,7 @@ public class BotaoNovo extends JButton implements Acao {
 	public BotaoNovo() {
 		super();
 	}
-	
+
 	public BotaoNovo(String texto) {
 		super(texto);
 	}
@@ -22,6 +23,6 @@ public class BotaoNovo extends JButton implements Acao {
 		frame.getTextMsg().setText("");
 		frame.getLbFilePath().setText("");
 		frame.getKeyListener().setTextoEditor("");
-		frame.getLbStatus().setText("Não modificado");
+		frame.getLbStatus().setText(EStatus.NAO_MODIFICADO.toString());
 	}
 }

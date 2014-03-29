@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import br.com.furb.enumeracao.EStatus;
 import br.com.furb.ui.barraFerramentas.botoes.BotaoAbrir;
 import br.com.furb.ui.barraFerramentas.botoes.BotaoColar;
 import br.com.furb.ui.barraFerramentas.botoes.BotaoCompilar;
@@ -88,6 +89,7 @@ public class CompilerInterface extends JFrame {
 		setSize(1000, 650);
 		setTitle("Compilador");
 		setMinimumSize(new Dimension(800, 650));
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -258,10 +260,8 @@ public class CompilerInterface extends JFrame {
 		panelMsg.setSize(panelMsg.getSize().width, 100);
 
 		scrollPaneMsg = new JScrollPane(panelMsg);
-		scrollPaneMsg
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPaneMsg
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPaneMsg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPaneMsg.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPaneMsg.addKeyListener(keyListener);
 		scrollPaneMsg.setPreferredSize(new Dimension(0, 100));
 
@@ -278,7 +278,7 @@ public class CompilerInterface extends JFrame {
 		panelFooter.addKeyListener(keyListener);
 		panelFooter.addKeyListener(keyListener);
 
-		lbStatus = new JLabel("N\u00E3o modificado");
+		lbStatus = new JLabel(EStatus.NAO_MODIFICADO.toString());
 		lbStatus.addKeyListener(keyListener);
 		panelFooter.add(lbStatus);
 
@@ -287,11 +287,10 @@ public class CompilerInterface extends JFrame {
 		panelFooter.add(lbFilePath);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	}
-	
+
 	private CompilerInterface getInstance() {
 		return this;
 	}
-
 
 	public JButton getBtnNovo() {
 		return btnNovo;
@@ -353,7 +352,7 @@ public class CompilerInterface extends JFrame {
 	public JLabel getLbFilePath() {
 		return lbFilePath;
 	}
-	
+
 	public ShortCutListener getKeyListener() {
 		if (keyListener instanceof ShortCutListener) {
 			return (ShortCutListener) keyListener;

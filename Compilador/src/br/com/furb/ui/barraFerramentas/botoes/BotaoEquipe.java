@@ -11,13 +11,13 @@ public class BotaoEquipe extends JButton implements Acao {
 	public BotaoEquipe() {
 		super();
 	}
-	
+
 	public BotaoEquipe(String texto) {
 		super(texto);
 	}
 
 	@Override
 	public void executaAcao(CompilerInterface frame) {
-		frame.getTextMsg().append("Integrantes Equipe: Carlos Alberto Curbani, Felipe Loose Corso, Jonathan de Souza\n");
+		frame.getTextMsg().setText("Integrantes Equipe: Carlos Alberto Curbani, Felipe Loose Corso, Jonathan de Souza\n");
 	}
 }

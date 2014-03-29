@@ -1,13 +1,13 @@
 package br.com.furb.ui.barraFerramentas.botoes;
 
+import java.awt.FileDialog;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 
+import br.com.furb.enumeracao.EStatus;
 import br.com.furb.ui.CompilerInterface;
 import br.com.furb.ui.barraFerramentas.acao.Acao;
 
@@ -24,25 +24,19 @@ public class BotaoAbrir extends JButton implements Acao {
 
 	@Override
 	public void executaAcao(CompilerInterface frame) {
-		String filePath;
-		JFileChooser file = new JFileChooser();
-		file.setCurrentDirectory(new File("C:\\"));
-		file.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		String filePath = "";
+		FileDialog fileDialog = new FileDialog(frame, "Abrir", FileDialog.LOAD);
+		fileDialog.setDirectory("C:\\");
+		fileDialog.setVisible(true);
 
-		if (file.showOpenDialog(file) == JFileChooser.APPROVE_OPTION) {
-			filePath = file.getSelectedFile().getPath();
-		} else {
-			filePath = "";
-		}
-		String texto = "";
-		if (!filePath.equalsIgnoreCase("")) {
-			texto = textFileRead(filePath);
+		filePath = fileDialog.getDirectory() + fileDialog.getFile();
+
+		if (!filePath.equalsIgnoreCase("C:\\null")) {
 			frame.getLbFilePath().setText(filePath);
-			frame.getTextEditor().setText(texto);
+			frame.getTextEditor().setText(textFileRead(filePath));
 			frame.getKeyListener().setTextoEditor("");
-			frame.getLbStatus().setText("Não modificado");
-		} else {
-			frame.getTextMsg().setText("Arquivo inválido!");
+			frame.getTextMsg().setText("");
+			frame.getLbStatus().setText(EStatus.NAO_MODIFICADO.toString());
 		}
 	}
 
