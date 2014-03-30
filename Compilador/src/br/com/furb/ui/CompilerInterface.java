@@ -52,7 +52,6 @@ public class CompilerInterface extends JFrame {
 	private final JPanel contentPane;
 	private final KeyListener keyListener;
 
-	public static final String caminhoIcones = "././././././Images/";
 	private JPanel panelFooter;
 	private JLabel lbFilePath;
 	private JScrollPane scrollPaneEditor;
@@ -114,7 +113,7 @@ public class CompilerInterface extends JFrame {
 				btnNovo.executaAcao(getInstance());
 			}
 		});
-		btnNovo.setIcon(new ImageIcon(caminhoIcones + "newFile.png"));
+		btnNovo.setIcon(getImageIcon("newFile.png"));
 		btnNovo.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnNovo.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnNovo.addKeyListener(keyListener);
@@ -128,7 +127,7 @@ public class CompilerInterface extends JFrame {
 				btnAbrir.executaAcao(getInstance());
 			}
 		});
-		btnAbrir.setIcon(new ImageIcon(caminhoIcones + "openFile.png"));
+		btnAbrir.setIcon(getImageIcon("openFile.png"));
 		btnAbrir.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnAbrir.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnAbrir.addKeyListener(keyListener);
@@ -143,7 +142,7 @@ public class CompilerInterface extends JFrame {
 			}
 
 		});
-		btnSalvar.setIcon(new ImageIcon(caminhoIcones + "saveFile.png"));
+		btnSalvar.setIcon(getImageIcon("saveFile.png"));
 		btnSalvar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnSalvar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnSalvar.addKeyListener(keyListener);
@@ -157,7 +156,7 @@ public class CompilerInterface extends JFrame {
 				btnCopiar.executaAcao(getInstance());
 			}
 		});
-		btnCopiar.setIcon(new ImageIcon(caminhoIcones + "copy.png"));
+		btnCopiar.setIcon(getImageIcon("copy.png"));
 		btnCopiar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCopiar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnCopiar.addKeyListener(keyListener);
@@ -171,7 +170,7 @@ public class CompilerInterface extends JFrame {
 				btnColar.executaAcao(getInstance());
 			}
 		});
-		btnColar.setIcon(new ImageIcon(caminhoIcones + "paste.png"));
+		btnColar.setIcon(getImageIcon("paste.png"));
 		btnColar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnColar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnColar.addKeyListener(keyListener);
@@ -185,7 +184,7 @@ public class CompilerInterface extends JFrame {
 				btnRecortar.executaAcao(getInstance());
 			}
 		});
-		btnRecortar.setIcon(new ImageIcon(caminhoIcones + "cut.png"));
+		btnRecortar.setIcon(getImageIcon("cut.png"));
 		btnRecortar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnRecortar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnRecortar.addKeyListener(keyListener);
@@ -199,7 +198,7 @@ public class CompilerInterface extends JFrame {
 				btnCompilar.executaAcao(getInstance());
 			}
 		});
-		btnCompilar.setIcon(new ImageIcon(caminhoIcones + "compile.png"));
+		btnCompilar.setIcon(getImageIcon("compile.png"));
 		btnCompilar.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCompilar.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnCompilar.addKeyListener(keyListener);
@@ -213,7 +212,7 @@ public class CompilerInterface extends JFrame {
 				btnGerarCod.executaAcao(getInstance());
 			}
 		});
-		btnGerarCod.setIcon(new ImageIcon(caminhoIcones + "geradorCod.png"));
+		btnGerarCod.setIcon(getImageIcon("geradorCod.png"));
 		btnGerarCod.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnGerarCod.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnGerarCod.addKeyListener(keyListener);
@@ -227,7 +226,7 @@ public class CompilerInterface extends JFrame {
 				btnEquipe.executaAcao(getInstance());
 			}
 		});
-		btnEquipe.setIcon(new ImageIcon(caminhoIcones + "group.png"));
+		btnEquipe.setIcon(getImageIcon("group.png"));
 		btnEquipe.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnEquipe.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnEquipe.addKeyListener(keyListener);
@@ -345,8 +344,8 @@ public class CompilerInterface extends JFrame {
 		return lbStatus;
 	}
 
-	public static String getCaminhoicones() {
-		return caminhoIcones;
+	public ImageIcon getImageIcon(String nomeIcone) {
+		return new ImageIcon(getClass().getResource("/Images/" + nomeIcone));
 	}
 
 	public JLabel getLbFilePath() {
