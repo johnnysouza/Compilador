@@ -37,6 +37,7 @@ public class BotaoAbrir extends JButton implements Acao {
 			frame.getKeyListener().setTextoEditor("");
 			frame.getTextMsg().setText("");
 			frame.getLbStatus().setText(EStatus.NAO_MODIFICADO.toString());
+			frame.getKeyListener().setTextoEditor(frame.getTextEditor().getText());
 		}
 	}
 
