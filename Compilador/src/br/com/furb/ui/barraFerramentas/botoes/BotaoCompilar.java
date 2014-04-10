@@ -50,11 +50,26 @@ public class BotaoCompilar extends JButton implements Acao {
 					listaTokens.append(t.getLexeme());
 					listaTokens.append("\n");
 				}
+				listaTokens.append("\t");
 				listaTokens.append("Programa compilado com sucesso!");
 				frame.getTextMsg().setText(listaTokens.toString());
 			} catch (LexicalError e) {
-				// TODO tratar as exceções para printar na caixa de mensagem
-				System.err.println(e.getMessage() + "e;, em " + e.getPosition());
+
+				StringBuilder sb = new StringBuilder();
+				sb.append("Erro na linha ");
+				try {
+					int linha = frame.getTextEditor().getLineOfOffset(e.getPosition()) + 1;
+					sb.append(linha);
+				} catch (BadLocationException e1) {
+					System.err.println("Linha do caractere não encontrada");
+				}
+				sb.append(" - ");
+				if (e.getMessage().equalsIgnoreCase("símbolo inválido")) {
+					sb.append(String.valueOf(frame.getTextEditor().getText().charAt(e.getPosition())));
+				}
+				sb.append(" ");
+				sb.append(e.getMessage());
+				frame.getTextMsg().setText(sb.toString());
 			}
 		} else {
 			frame.getTextMsg().setText("Nenhum programa para compilar!");
