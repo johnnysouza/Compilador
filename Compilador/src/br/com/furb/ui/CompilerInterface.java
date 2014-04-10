@@ -270,6 +270,7 @@ public class CompilerInterface extends JFrame {
 		textMsg.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelCentral.add(scrollPaneMsg, BorderLayout.SOUTH);
 		textMsg.addKeyListener(keyListener);
+		textMsg.setFont(new Font("Console", Font.PLAIN, 11));
 
 		panelFooter = new JPanel();
 		panelCompilador.add(panelFooter, BorderLayout.SOUTH);
