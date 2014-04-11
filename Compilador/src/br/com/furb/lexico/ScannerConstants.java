@@ -104,11 +104,11 @@ public interface ScannerConstants {
 	int[] SPECIAL_CASES_VALUES = { 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 };
 
 	String[] SCANNER_ERROR = { //
-	"símbolo inválido", //
+			"símbolo inválido", //
 			"", //
 			"", //
 			"constante literal não finalizada", //
-			"Erro identificando \"&&\"", //
+			"\"&&\" não identificado", //
 			"", //
 			"", //
 			"", //
@@ -123,30 +123,30 @@ public interface ScannerConstants {
 			"", //
 			"", //
 			"", //
-			"Erro identificando identificador", //
+			"identificador não identificado", //
 			"comentário de bloco não finalizado", //
-			"Erro identificando \"||\"", //
+			"\"||\" não identificado", //
 			"", //
 			"", //
-			"Erro identificando constanteString", //
+			"constanteString não identificada", //
 			"", //
 			"", //
-			"Erro identificando constanteFloat", //
-			"", //
-			"", //
-			"", //
-			"", "Erro identificando identificador", //
+			"constanteFloat não identificada", //
 			"", //
 			"", //
 			"", //
+			"", "identificador não identificado", //
 			"", //
 			"", //
-			"Erro identificando constanteFloat", //
 			"", //
 			"", //
-			"Erro identificando constanteFloat", //
 			"", //
-			"Erro identificando constanteFloat", //
+			"constanteFloat não identificada", //
+			"", //
+			"", //
+			"constanteFloat não identificada", //
+			"", //
+			"constanteFloat não identificada", //
 			"", //
 			"" };
 
