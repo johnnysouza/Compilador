@@ -27,7 +27,7 @@ constanteInteira: 0 | [1-9] {digito}? {digito}? {digito}? {digito}?
 // cte float
 constanteFloat: (0 | [1-9] {digito}? {digito}? {digito}? {digito}?) , ({digito}? {digito}? {digito}? {digito}? [1-9] | 0)
 // cte string
-constanteString: \" ( [^ \" \\n \\ ] | \\\\ | \\\" )* \"
+constanteString: \" ( [^ \" \n \\ ] | \\\\ | \\\" )* \"
 
 // comentarios: o linha e de bloco - em como ignorar
 :! {comment_Linha}
@@ -125,7 +125,7 @@ pr_return = identificador : "return"
 
 <variaveis_globais> ::= pr_global <variaveis> <variaveis_globais> | î ;
 <lista_modulos> ::= î | <modulo> <lista_modulos> ;
-<lista_comandos> ::= î | <comando> <lista_modulos> ;
+<lista_comandos> ::= î | <comando> <lista_comandos> ;
 <modulo> ::= <tipo_modulo> identificador "(" <parametros> ")" <variaveis_locais> <lista_comandos> <retorno> pr_end ;
 <tipo_modulo> ::= pr_boolean | pr_float | pr_integer | pr_string | pr_void ;
 <parametros> ::= î | <lista_parametros> ;
