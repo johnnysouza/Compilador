@@ -5,12 +5,14 @@ import javax.swing.text.BadLocationException;
 
 import br.com.furb.lexico.AnalysisError;
 import br.com.furb.lexico.BuscaClasse;
+import br.com.furb.lexico.Constants;
 import br.com.furb.lexico.LexicalError;
 import br.com.furb.lexico.Lexico;
 import br.com.furb.lexico.SemanticError;
 import br.com.furb.lexico.Semantico;
 import br.com.furb.lexico.Sintatico;
 import br.com.furb.lexico.SyntaticError;
+import br.com.furb.lexico.Token;
 import br.com.furb.ui.CompilerInterface;
 import br.com.furb.ui.barraFerramentas.acao.Acao;
 
@@ -49,6 +51,19 @@ public class BotaoCompilar extends JButton implements Acao {
 			} catch (SyntaticError e) {
 				StringBuilder sb = new StringBuilder();
 				tratarLinhaErroCompilacao(sb, frame, e);
+				sb.append("encontrado ");
+				
+				Token tokenErro = sintatico.getCurrentToken();
+				int idToken = tokenErro.getId();
+				if (idToken == Constants.t_identificador) {
+					sb.append(BuscaClasse.buscaNomeClasse(idToken));
+					sb.append(" (");
+					sb.append(tokenErro.getLexeme());
+					sb.append(") ");
+				}
+				
+				//TODO tratar demais erros conforme instruções da definição do trabalho
+				
 				sb.append(e.getMessage());
 				frame.getTextMsg().setText(sb.toString());
 			} catch (SemanticError e) {
