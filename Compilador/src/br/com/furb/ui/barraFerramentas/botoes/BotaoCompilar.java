@@ -3,10 +3,14 @@ package br.com.furb.ui.barraFerramentas.botoes;
 import javax.swing.JButton;
 import javax.swing.text.BadLocationException;
 
+import br.com.furb.lexico.AnalysisError;
 import br.com.furb.lexico.BuscaClasse;
 import br.com.furb.lexico.LexicalError;
 import br.com.furb.lexico.Lexico;
-import br.com.furb.lexico.Token;
+import br.com.furb.lexico.SemanticError;
+import br.com.furb.lexico.Semantico;
+import br.com.furb.lexico.Sintatico;
+import br.com.furb.lexico.SyntaticError;
 import br.com.furb.ui.CompilerInterface;
 import br.com.furb.ui.barraFerramentas.acao.Acao;
 
@@ -27,52 +31,44 @@ public class BotaoCompilar extends JButton implements Acao {
 		if (!frame.getTextEditor().getText().isEmpty()) {
 			Lexico lexico = new Lexico();
 			lexico.setInput(frame.getTextEditor().getText());
+			Sintatico sintatico = new Sintatico();
+			Semantico semantico = null;
 			try {
-				Token t = null;
-				StringBuilder listaTokens = new StringBuilder();
-				listaTokens.append("linha");
-				listaTokens.append("\t");
-				listaTokens.append("classe");
-				listaTokens.append("\t\t");
-				listaTokens.append("lexema");
-				listaTokens.append("\n");
-				while ((t = lexico.nextToken()) != null) {
-					int linha = -1;
-					try {
-						linha = frame.getTextEditor().getLineOfOffset(t.getPosition()) + 1;
-					} catch (BadLocationException e) {
-						e.printStackTrace();
-					}
-					listaTokens.append(linha);
-					listaTokens.append("\t");
-					listaTokens.append(buscaClasse.buscaNomeClasse(t.getId()));
-					listaTokens.append("\t");
-					listaTokens.append(t.getLexeme());
-					listaTokens.append("\n");
-				}
-				listaTokens.append("\t");
-				listaTokens.append("Programa compilado com sucesso!");
-				frame.getTextMsg().setText(listaTokens.toString());
+				sintatico.parse(lexico, semantico);
+				frame.getTextMsg().setText("\tPrograma compilado com sucesso!");
 			} catch (LexicalError e) {
-
 				StringBuilder sb = new StringBuilder();
-				sb.append("Erro na linha ");
-				try {
-					int linha = frame.getTextEditor().getLineOfOffset(e.getPosition()) + 1;
-					sb.append(linha);
-				} catch (BadLocationException e1) {
-					System.err.println("Linha do caractere não encontrada");
-				}
-				sb.append(" - ");
+				tratarLinhaErroCompilacao(sb, frame, e);
 				if (e.getMessage().equalsIgnoreCase("símbolo inválido")) {
-					sb.append(String.valueOf(frame.getTextEditor().getText().charAt(e.getPosition())));
+					sb.append(String.valueOf(frame.getTextEditor().getText()
+							.charAt(e.getPosition())));
+					sb.append(" ");
 				}
-				sb.append(" ");
 				sb.append(e.getMessage());
 				frame.getTextMsg().setText(sb.toString());
+			} catch (SyntaticError e) {
+				StringBuilder sb = new StringBuilder();
+				tratarLinhaErroCompilacao(sb, frame, e);
+				sb.append(e.getMessage());
+				frame.getTextMsg().setText(sb.toString());
+			} catch (SemanticError e) {
+				// não acontece ainda
 			}
 		} else {
 			frame.getTextMsg().setText("Nenhum programa para compilar!");
 		}
 	}
+
+	public void tratarLinhaErroCompilacao(StringBuilder sb,
+			CompilerInterface frame, AnalysisError e) {
+		sb.append("Erro na linha ");
+		try {
+			int linha = frame.getTextEditor().getLineOfOffset(e.getPosition()) + 1;
+			sb.append(linha);
+		} catch (BadLocationException e1) {
+			System.err.println("Linha do caractere não encontrada");
+		}
+		sb.append(" - ");
+	}
+
 }

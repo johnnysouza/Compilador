@@ -2,7 +2,7 @@ package br.com.furb.lexico;
 
 import java.util.Stack;
 
-public class Sintatico implements Constants, ParserConstants
+public class Sintatico implements Constants
 {
     private Stack stack = new Stack();
     private Token currentToken;
