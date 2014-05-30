@@ -58,11 +58,14 @@ public class BotaoCompilar extends JButton implements Acao {
 				if (idToken == Constants.t_identificador) {
 					sb.append(BuscaClasse.buscaNomeClasse(idToken));
 					sb.append(" (");
-					sb.append(tokenErro.getLexeme());
+					sb.append(getLexema(tokenErro));
 					sb.append(") ");
+				} else {
+					//TODO tratar demais erros conforme instruções da definição do trabalho
+					sb.append(getLexema(tokenErro));
+					sb.append(" ");
 				}
 				
-				//TODO tratar demais erros conforme instruções da definição do trabalho
 				
 				sb.append(e.getMessage());
 				frame.getTextMsg().setText(sb.toString());
@@ -84,6 +87,14 @@ public class BotaoCompilar extends JButton implements Acao {
 			System.err.println("Linha do caractere não encontrada");
 		}
 		sb.append(" - ");
+	}
+	
+	private String getLexema(Token tokenErro) {
+		String lexema = tokenErro.getLexeme();
+		if (lexema.equals("$")) {
+			lexema = "fim do programa";
+		} 
+		return lexema;
 	}
 
 }
