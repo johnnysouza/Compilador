@@ -153,88 +153,89 @@ public interface ParserConstants {
 			{ 2, 77 }, { 3 }, { 4 }, { 5 }, { 22, 69, 23 }, { 6, 83 },
 			{ 7, 83 }, { 0 }, { 22, 63, 23 } };
 
-	String[] PARSER_ERROR = { "", "esperado fim de programa",
-			"esperado identificador",
-			"esperado constanteInteira",
-			"esperado constanteFloat",
-			"esperado constanteString",
-			"esperado \"+\"",
-			"esperado \"-\"",
-			"esperado \"*\"",
-			"esperado \"/\"",
-			"esperado \"=\"",
-			"esperado \"&&\"",
-			"esperado \"||\"",
-			"esperado \"!\"",
-			"esperado \"==\"",
-			"esperado \"!=\"",
-			"esperado \"<\"",
-			"esperado \"<=\"",
-			"esperado \">\"",
-			"esperado \">=\"",
-			"esperado \",\"",
-			"esperado \";\"",
-			"esperado \"(\"",
-			"esperado \")\"",
-			"esperado boolean",
-			"esperado do",
-			"esperado else",
-			"esperado end",
-			"esperado false",
-			"esperado float",
-			"esperado if",
-			"esperado integer",
-			"esperado main",
-			"esperado print",
-			"esperado println",
-			"esperado scan",
-			"esperado string",
-			"esperado true",
-			"esperado void",
-			"esperado while",
-			"esperado global",
-			"esperado local",
-			"esperado return",
-			"<main> inválido",
-			"<variaveis_globais> inválido",
-			"<lista_modulos> inválido",
-			"<lista_comandos> inválido",
-			"<modulo> inválido",
-			"<tipo_modulo> inválido",
-			"<parametros> inválido",
-			"<lista_parametros> inválido",
-			"<parametro> inválido",
-			"<tipo> inválido",
-			"<variaveis_locais> inválido",
-			"<retorno> inválido",
-			"<variaveis> inválido",
-			"<lista_identificadores> inválido",
-			"<valor> inválido",
-			"<constante> inválido",
-			"<comando> inválido",
-			"<cmd_atribuicao> inválido",
-			"<cmd_entrada> inválido",
-			"<cmd_saida> inválido",
-			"esperado expressao",
-			"<cmd_selecao> inválido",
-			"<else> inválido",
-			"<cmd_repeticao> inválido",
-			"<cmd_chamada_modulo> inválido",
-			"<parametros_reais> inválido",
-			"esperado expressao",
-			"<lista_parametros_1> inválido",
-			"<lista_identificadores_1> inválido",
-			"<lista_expressoes_1> inválido",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"esperado expressao",
-			"<comando_1> inválido" };
+	String[] PARSER_ERROR = { "", "esperado fim de programa", //Era esperado fim de programa
+			"esperado identificador", //Era esperado identificador
+			"esperado constante inteira", //Era esperado constanteInteira
+			"esperado constante float", //Era esperado constanteFloat
+			"esperado constante string", //Era esperado constanteString
+			"esperado '+'", //Era esperado \"+\"
+			"esperado '-'", //Era esperado \"-\"
+			"esperado '*'", //Era esperado \"*\"
+			"esperado '/'", //Era esperado \"/\"
+			"esperado '='", //Era esperado \"=\"
+			"esperado \"&&\"", //Era esperado \"&&\"
+			"esperado \"||\"", //Era esperado \"||\"
+			"esperado '!'", //Era esperado \"!\"
+			"esperado \"==\"", //Era esperado \"==\"
+			"esperado \"!=\"", //Era esperado \"!=\"
+			"esperado '<'", //Era esperado \"<\"
+			"esperado \"<=\"", //Era esperado \"<=\"
+			"esperado '>'", //Era esperado \">\"
+			"esperado \">=\"", //Era esperado \">=\"
+			"esperado ','", //Era esperado \",\"
+			"esperado ';'", //Era esperado \";\"
+			"esperado '('", //Era esperado \"(\"
+			"esperado ')'", //Era esperado \")\"
+			"esperado boolean", //Era esperado pr_boolean
+			"esperado do", //Era esperado pr_do
+			"esperado else", //Era esperado pr_else
+			"esperado end", //Era esperado pr_end
+			"esperado false", //Era esperado pr_false
+			"esperado float", //Era esperado pr_float
+			"esperado if", //Era esperado pr_if
+			"esperado integer", //Era esperado pr_integer
+			"esperado main", //Era esperado pr_main
+			"esperado print", //Era esperado pr_print
+			"esperado println", //Era esperado pr_println
+			"esperado scan", //Era esperado pr_scan
+			"esperado string", //Era esperado pr_string
+			"esperado true", //Era esperado pr_true
+			"esperado void", //Era esperado pr_void
+			"esperado while", //Era esperado pr_while
+			"esperado global", //Era esperado pr_global
+			"esperado local", //Era esperado pr_local
+			"esperado return", //Era esperado pr_return
+			"esperado main", //<main> inválido
+			"esperado identificador, boolean, do, end, float, if, integer, print, println, scan, string, void, global", //<variaveis_globais> inválido
+			"esperado identificador, boolean, do, end, float, if, integer, print, println, scan, string, void", //<lista_modulos> inválido
+			"esperado identificador, do, else, end, if, print, println, scan, while, return", //<lista_comandos> inválido
+			"esperado boolean, float, integer, string, void", //<modulo> inválido
+			"esperado boolean, float, integer, string, void", //<tipo_modulo> inválido
+			"esperado ')', boolean, float, integer, string", //<parametros> inválido
+			"esperado boolean, float, integer, string", //<lista_parametros> inválido
+			"esperado boolean, float, integer, string", //<parametro> inválido
+			"esperado boolean, float, integer, string", //<tipo> inválido
+			"esperado identificador, do, end, if, print, println, scan, local, return", //<variaveis_locais> inválido
+			"esperado end, return", //<retorno> inválido
+			"esperado boolean, float, integer, string", //<variaveis> inválido
+			"esperado identificador", //<lista_identificadores> inválido
+			"esperado '=', ';'", //<valor> inválido
+			"esperado constante inteira, constante float, constante String, false, true", //<constante> inválido
+			"esperado identificador, do, if, print, println, scan", //<comando> inválido
+			"esperado '='", //<cmd_atribuicao> inválido
+			"esperado scan", //<cmd_entrada> inválido
+			"esperado print, println", //<cmd_saida> inválido
+			"esperado expressao", //<lista_expressoes> inválido
+			"esperado if", //<cmd_selecao> inválido
+			"esperado else, end", //<else> inválido
+			"esperado do", //<cmd_repeticao> inválido
+			"esperado '('", //<cmd_chamada_modulo> inválido
+			"esperado identificador, constante inteira, constante float, constante String, '+', '-', '!', '(', ')', false, true", //<parametros_reais> inválido
+			"esperado expressao", //<expressao> inválido
+			"esperado ',', ')'", //<lista_parametros_1> inválido
+			"esperado '=', ',', ';', ')'", //<lista_identificadores_1> inválido
+			"esperado ',', ')'", //<lista_expressoes_1> inválido
+			"esperado expressao", //<expressao_1>
+			"esperado expressao", //<relacional_1>
+			"esperado expressao", //<aritmetica_1>
+			"esperado expressao", //<termo_1>
+			"esperado expressao", //<identificador_1>
+			"esperado expressao", //<elemento>
+			"esperado expressao", //<relacional>
+			"esperado expressao", //<operador_relacional>
+			"esperado expressao", //<aritmetica>
+			"esperado expressao", //<termo>
+			"esperado expressao", //<fator>
+			"esperado '=', '('" //<comando_1> inválido
+			};
 }

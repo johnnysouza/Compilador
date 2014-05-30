@@ -61,7 +61,6 @@ public class BotaoCompilar extends JButton implements Acao {
 					sb.append(getLexema(tokenErro));
 					sb.append(") ");
 				} else {
-					//TODO tratar demais erros conforme instruções da definição do trabalho
 					sb.append(getLexema(tokenErro));
 					sb.append(" ");
 				}
