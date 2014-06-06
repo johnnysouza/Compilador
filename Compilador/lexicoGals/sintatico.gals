@@ -7,7 +7,7 @@ ParserName = Sintatico
 SemanticName = Semantico
 ScannerCaseSensitive = false
 ScannerTable = Compact
-Input = String
+Input = Stream
 Parser = LL
 #RegularDefinitions
 min: [a-z]
@@ -121,7 +121,7 @@ pr_return = identificador : "return"
 <fator>
 <comando_1>
 #Grammar
-<main> ::= pr_main <variaveis_globais> <lista_modulos> <lista_comandos> pr_end ;
+<main> ::= #15 pr_main <variaveis_globais> <lista_modulos> <lista_comandos> pr_end #16 ;
 
 <variaveis_globais> ::= pr_global <variaveis> <variaveis_globais> | î ;
 <lista_modulos> ::= î | <modulo> <lista_modulos> ;
@@ -144,8 +144,8 @@ pr_return = identificador : "return"
 <comando_1> ::= <cmd_atribuicao> | <cmd_chamada_modulo> ;
 <cmd_atribuicao> ::= "=" <expressao> ";" ;
 <cmd_entrada> ::= pr_scan "(" <lista_identificadores> ")" ";" ;
-<cmd_saida> ::= pr_print "(" <lista_expressoes> ")" ";" | pr_println "(" <lista_expressoes> ")" ";" ;
-<lista_expressoes> ::= <expressao> <lista_expressoes_1> ;
+<cmd_saida> ::= pr_print "(" <lista_expressoes> ")" ";" | pr_println "(" <lista_expressoes> #17 ")" ";" ;
+<lista_expressoes> ::= <expressao> #14 <lista_expressoes_1> ;
 <lista_expressoes_1> ::= î | "," <lista_expressoes> ;
 <cmd_selecao> ::= pr_if "(" <expressao> ")" <lista_comandos> <else> pr_end ";" ;
 <else> ::= pr_else <lista_comandos> | î ;
@@ -154,14 +154,20 @@ pr_return = identificador : "return"
 <parametros_reais> ::= î | <lista_expressoes> ;
 
 <expressao> ::= <elemento> <expressao_1> ;
-<expressao_1> ::= î | "||" <elemento> <expressao_1> | "&&" <elemento> <expressao_1> ;
-<elemento> ::= <relacional> | pr_true | pr_false | "!" <elemento> ;
+<expressao_1> ::= î | "||" <elemento> #18 <expressao_1> | "&&" <elemento> #19 <expressao_1> ;
+<elemento> ::= <relacional> | pr_true #11 | pr_false #12 | "!" <elemento> #13 ;
 <relacional> ::= <aritmetica> <relacional_1> ;
-<relacional_1> ::= î | <operador_relacional> <aritmetica>;
+<relacional_1> ::= î | <operador_relacional> #20 <aritmetica> #21 ;
 <operador_relacional> ::= "==" | "!=" | "<" | "<=" | ">" | ">=" ;
 <aritmetica> ::= <termo> <aritmetica_1> ;
-<aritmetica_1> ::= î | "+" <termo> <aritmetica_1> | "-" <termo> <aritmetica_1> ;
+<aritmetica_1> ::= î | "+" <termo> #1 <aritmetica_1> | "-" <termo> #2 <aritmetica_1> ;
 <termo> ::= <fator> <termo_1> ;
-<termo_1> ::= î | "*" <fator> <termo_1> | "/" <fator> <termo_1> ;
-<fator> ::= identificador <identificador_1> | constanteInteira | constanteFloat | constanteString | "(" <expressao> ")" | "+" <fator> | "-" <fator> ;
+<termo_1> ::= î | "*" <fator> #3 <termo_1> | "/" <fator> #4 <termo_1> ;
+<fator> ::= identificador <identificador_1> 
+			| constanteInteira #5
+			| constanteFloat #6
+			| constanteString #22
+			| "(" <expressao> ")" 
+			| "+" <fator> #23
+			| "-" <fator> #7 ;
 <identificador_1> ::= î | "(" <lista_expressoes> ")" ;
