@@ -34,7 +34,7 @@ public class BotaoCompilar extends JButton implements Acao {
 			Lexico lexico = new Lexico();
 			lexico.setInput(frame.getTextEditor().getText());
 			Sintatico sintatico = new Sintatico();
-			Semantico semantico = null;
+			Semantico semantico = new Semantico();
 			try {
 				sintatico.parse(lexico, semantico);
 				frame.getTextMsg().setText("\tPrograma compilado com sucesso!");
@@ -42,8 +42,7 @@ public class BotaoCompilar extends JButton implements Acao {
 				StringBuilder sb = new StringBuilder();
 				tratarLinhaErroCompilacao(sb, frame, e);
 				if (e.getMessage().equalsIgnoreCase("símbolo inválido")) {
-					sb.append(String.valueOf(frame.getTextEditor().getText()
-							.charAt(e.getPosition())));
+					sb.append(String.valueOf(frame.getTextEditor().getText().charAt(e.getPosition())));
 					sb.append(" ");
 				}
 				sb.append(e.getMessage());
@@ -52,7 +51,7 @@ public class BotaoCompilar extends JButton implements Acao {
 				StringBuilder sb = new StringBuilder();
 				tratarLinhaErroCompilacao(sb, frame, e);
 				sb.append("encontrado ");
-				
+
 				Token tokenErro = sintatico.getCurrentToken();
 				int idToken = tokenErro.getId();
 				if (idToken == Constants.t_identificador) {
@@ -64,8 +63,7 @@ public class BotaoCompilar extends JButton implements Acao {
 					sb.append(getLexema(tokenErro));
 					sb.append(" ");
 				}
-				
-				
+
 				sb.append(e.getMessage());
 				frame.getTextMsg().setText(sb.toString());
 			} catch (SemanticError e) {
@@ -76,8 +74,7 @@ public class BotaoCompilar extends JButton implements Acao {
 		}
 	}
 
-	public void tratarLinhaErroCompilacao(StringBuilder sb,
-			CompilerInterface frame, AnalysisError e) {
+	public void tratarLinhaErroCompilacao(StringBuilder sb, CompilerInterface frame, AnalysisError e) {
 		sb.append("Erro na linha ");
 		try {
 			int linha = frame.getTextEditor().getLineOfOffset(e.getPosition()) + 1;
@@ -87,12 +84,12 @@ public class BotaoCompilar extends JButton implements Acao {
 		}
 		sb.append(" - ");
 	}
-	
+
 	private String getLexema(Token tokenErro) {
 		String lexema = tokenErro.getLexeme();
 		if (lexema.equals("$")) {
 			lexema = "fim do programa";
-		} 
+		}
 		return lexema;
 	}
 
