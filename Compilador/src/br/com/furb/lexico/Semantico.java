@@ -1,13 +1,23 @@
 package br.com.furb.lexico;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
+
+import br.com.furb.enumeracao.ETipo;
 
 public class Semantico implements Constants {
 	private StringBuilder codigo;
 	private Stack<String> pilhaTipo;
+	private Map<String, String> tabelaSimbolo;
+	private List<String> lista;
 
 	public Semantico() {
 		this.codigo = new StringBuilder();
+		this.tabelaSimbolo = new HashMap<>();
+		this.lista = new ArrayList<>();
 	}
 
 	public void executeAction(int action, Token token) throws SemanticError {
@@ -56,8 +66,30 @@ public class Semantico implements Constants {
 		case 14:
 			acao_14();
 			break;
+		case 24:
+			acao_24(token);
+			break;
+		case 25:
+			acao_25(token);
+			break;
+		case 26:
+			acao_26();
+			break;
+		case 27:
+			acao_27();
+			break;
+		case 28:
+			acao_28(token);
+			break;
+		case 29:
+			acao_29(token);
+			break;
 		}
 
+	}
+
+	private void acao_0(Token token) {
+		tabelaSimbolo.put(token.getLexeme(), "prog");
 	}
 
 	private void acao_01() {
@@ -190,6 +222,76 @@ public class Semantico implements Constants {
 		case "boolean":
 			codigo.append("call void [mscorlib]System.Console::Write(bool)/n");
 			break;
+		}
+	}
+
+	private void acao_24(Token token) {
+		// FIXME: fazer o que com tipo? push na pilha?
+		switch (token.getLexeme()) {
+		case "int":
+			// tipo = "int64";
+			pilhaTipo.push("int64");
+			break;
+		case "real":
+			// tipo = "float64";
+			pilhaTipo.push("float64");
+			break;
+		}
+	}
+
+	private void acao_25(Token token) {
+		lista.add(token.getLexeme());
+	}
+
+	private void acao_26() throws SemanticError {
+		for (String id : lista) {
+			if (tabelaSimbolo.containsKey(id)) {
+				throw new SemanticError("FUUUUU!!!!");
+			}
+			// FIXME: tipo vem da pilha?
+			String tipo = pilhaTipo.pop();
+			tabelaSimbolo.put(id, tipo);
+			codigo.append(".locals (" + tipo + " " + id + ")\n");
+		}
+	}
+
+	private void acao_27() throws SemanticError {
+		for (String id : lista) {
+			if (!tabelaSimbolo.containsKey(id)) {
+				throw new SemanticError("FUUUUU!!!!");
+			}
+			// FIXME: verificar se não é id de "programa"
+			String tipo = tabelaSimbolo.get(id);
+			codigo.append("call string [mscorlib]System.Console::ReadLine()\n");
+			if (!tipo.equalsIgnoreCase(ETipo.STRING.toString())) {
+				codigo.append("call " + tipo + " [mscorlib]System.Int64::Parse(string)\n");
+				codigo.append("stloc " + id + "\n");
+			}
+		}
+	}
+
+	private void acao_28(Token token) throws SemanticError {
+		String id = token.getLexeme();
+		if (!tabelaSimbolo.containsKey(id)) {
+			throw new SemanticError("FUUUUU!!!!");
+		}
+		// FIXME: verificar se não é id de "programa"
+		pilhaTipo.push(tabelaSimbolo.get(id));
+		codigo.append("ldloc " + id + "\n");
+	}
+
+	private void acao_29(Token token) throws SemanticError {
+		String id = pilhaTipo.pop();
+		if (!tabelaSimbolo.containsKey(id)) {
+			throw new SemanticError("FUUUUU!!!!");
+		}
+		// FIXME: verificar se não é id de "programa"
+		// tipo expressão
+		String tipo1 = pilhaTipo.pop();
+		// tipo do id
+		String tipo2 = tabelaSimbolo.get(id);
+		if (tipo1 != tipo2) {
+			throw new SemanticError("FUUUUU!!!!");
 		}
 	}
 
