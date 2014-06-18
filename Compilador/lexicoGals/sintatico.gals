@@ -7,7 +7,7 @@ ParserName = Sintatico
 SemanticName = Semantico
 ScannerCaseSensitive = false
 ScannerTable = Compact
-Input = String
+Input = Stream
 Parser = LL
 #RegularDefinitions
 min: [a-z]
@@ -135,21 +135,21 @@ pr_return = identificador : "return"
 <tipo> ::= pr_boolean | pr_float | pr_integer | pr_string ;
 <variaveis_locais> ::= î | pr_local <variaveis> <variaveis_locais> ;
 <retorno> ::= î | pr_return <expressao> ";" ;
-<variaveis> ::= <tipo> <lista_identificadores> <valor> ";" ;
-<lista_identificadores> ::= identificador <lista_identificadores_1> ;
+<variaveis> ::= <tipo> #24 <lista_identificadores> #26 <valor> ";" ;
+<lista_identificadores> ::= identificador #25 <lista_identificadores_1> ;
 <lista_identificadores_1> ::= î | "," <lista_identificadores> ;
-<valor> ::= î | "=" <constante> ;
+<valor> ::= î | "=" <constante> #30 ;
 <constante> ::= constanteInteira | constanteFloat | constanteString | pr_true | pr_false ;
-<comando> ::= identificador <comando_1> | <cmd_entrada> | <cmd_saida> | <cmd_selecao> | <cmd_repeticao> ;
+<comando> ::= identificador #25 <comando_1> | <cmd_entrada> | <cmd_saida> | <cmd_selecao> | <cmd_repeticao> ;
 <comando_1> ::= <cmd_atribuicao> | <cmd_chamada_modulo> ;
-<cmd_atribuicao> ::= "=" <expressao> ";" ;
-<cmd_entrada> ::= pr_scan "(" <lista_identificadores> ")" ";" ;
+<cmd_atribuicao> ::= "=" <expressao> #29 ";" ;
+<cmd_entrada> ::= pr_scan "(" <lista_identificadores> #27 ")" ";" ;
 <cmd_saida> ::= pr_print "(" <lista_expressoes> ")" ";" | pr_println "(" <lista_expressoes> #17 ")" ";" ;
 <lista_expressoes> ::= <expressao> #14 <lista_expressoes_1> ;
 <lista_expressoes_1> ::= î | "," <lista_expressoes> ;
-<cmd_selecao> ::= pr_if "(" <expressao> ")" <lista_comandos> <else> pr_end ";" ;
-<else> ::= pr_else <lista_comandos> | î ;
-<cmd_repeticao> ::= pr_do <lista_comandos> pr_while "(" <expressao> ")" ";" ;
+<cmd_selecao> ::= pr_if "(" <expressao> ")" #31 <lista_comandos> <else> pr_end #32 ";" ;
+<else> ::= pr_else #33 <lista_comandos> | î ;
+<cmd_repeticao> ::= pr_do #34 <lista_comandos> pr_while "(" <expressao> ")" #35 ";" ;
 <cmd_chamada_modulo> ::= "(" <parametros_reais> ")" ";" ;
 <parametros_reais> ::= î | <lista_expressoes> ;
 
@@ -163,7 +163,7 @@ pr_return = identificador : "return"
 <aritmetica_1> ::= î | "+" <termo> #1 <aritmetica_1> | "-" <termo> #2 <aritmetica_1> ;
 <termo> ::= <fator> <termo_1> ;
 <termo_1> ::= î | "*" <fator> #3 <termo_1> | "/" <fator> #4 <termo_1> ;
-<fator> ::= identificador <identificador_1> 
+<fator> ::= identificador #28 <identificador_1> 
 			| constanteInteira #5
 			| constanteFloat #6
 			| constanteString #22
