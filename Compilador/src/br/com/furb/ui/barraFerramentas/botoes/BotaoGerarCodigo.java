@@ -18,6 +18,15 @@ public class BotaoGerarCodigo extends JButton implements Acao {
 
 	@Override
 	public void executaAcao(CompilerInterface frame) {
-		frame.getTextMsg().setText("Gerador de código não implementado ainda.\n");
+		if (!frame.getTextEditor().getText().isEmpty()) {
+			Compila.compilar(frame, "", "\tPrograma compilado com sucesso!");
+			salvarArquivo(frame.getLbFilePath().getText());
+		} else {
+			frame.getTextMsg().setText("Nenhum programa para gerar código!");
+		}
+	}
+
+	private void salvarArquivo(String filePath) {
+
 	}
 }
