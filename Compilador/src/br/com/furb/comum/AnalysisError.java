@@ -1,4 +1,4 @@
-package br.com.furb.lexico;
+package br.com.furb.comum;
 
 public class AnalysisError extends Exception {
 	private static final long serialVersionUID = -3414491548565962175L;

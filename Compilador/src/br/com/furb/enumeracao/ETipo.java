@@ -1,15 +1,31 @@
 package br.com.furb.enumeracao;
 
 public enum ETipo {
-	INT("int"), BOOLEAN("boolean"), FLOAT("float");
-	private String desc = "";
+	INT(Integer.TYPE.getSimpleName(), "int64", "Int64"), /**/
+	BOOLEAN(Boolean.TYPE.getSimpleName(), "bool", Boolean.class.getSimpleName()), /**/
+	FLOAT(Float.TYPE.getSimpleName(), "float64", Double.class.getSimpleName()), /**/
+	STRING(String.class.getSimpleName(), "string", "");
 
-	private ETipo(String descTipo) {
+	private String desc = "";
+	private String tipoMSIL = "";
+	private String classe;
+
+	private ETipo(String descTipo, String tipoMSIL, String classe) {
 		this.desc = descTipo;
+		this.tipoMSIL = tipoMSIL;
+		this.classe = classe;
 	}
 
 	@Override
 	public String toString() {
 		return this.desc;
+	}
+
+	public String getTipoMSIL() {
+		return tipoMSIL;
+	}
+
+	public String getClasse() {
+		return classe;
 	}
 }

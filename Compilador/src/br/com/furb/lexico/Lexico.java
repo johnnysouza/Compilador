@@ -1,5 +1,8 @@
 package br.com.furb.lexico;
 
+import br.com.furb.comum.Constants;
+import br.com.furb.comum.Token;
+
 public class Lexico implements Constants
 {
     private int position;

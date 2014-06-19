@@ -1,4 +1,4 @@
-package br.com.furb.lexico;
+package br.com.furb.comum;
 
 public interface ParserConstants {
 	int START_SYMBOL = 43;

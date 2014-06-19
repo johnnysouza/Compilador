@@ -1,6 +1,13 @@
-package br.com.furb.lexico;
+package br.com.furb.sintatico;
 
 import java.util.Stack;
+
+import br.com.furb.comum.Constants;
+import br.com.furb.comum.Token;
+import br.com.furb.lexico.LexicalError;
+import br.com.furb.lexico.Lexico;
+import br.com.furb.semantico.SemanticError;
+import br.com.furb.semantico.Semantico;
 
 public class Sintatico implements Constants
 {

@@ -1,5 +1,7 @@
 package br.com.furb.lexico;
 
+import br.com.furb.comum.AnalysisError;
+
 public class LexicalError extends AnalysisError {
 	private static final long serialVersionUID = -7162883068807983250L;
 

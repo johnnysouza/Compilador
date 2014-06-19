@@ -1,4 +1,4 @@
-package br.com.furb.lexico;
+package br.com.furb.semantico;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,18 +6,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import br.com.furb.comum.Constants;
+import br.com.furb.comum.Token;
 import br.com.furb.enumeracao.ETipo;
 
 public class Semantico implements Constants {
 	private StringBuilder codigo;
 	private Stack<String> pilhaTipo;
 	private Map<String, String> tabelaSimbolo;
-	private List<String> lista;
+	private List<String> listaIdentificadores;
+	private String nomeArquivo;
 
-	public Semantico() {
+	public Semantico(String nomeArquivo) {
 		this.codigo = new StringBuilder();
-		this.tabelaSimbolo = new HashMap<>();
-		this.lista = new ArrayList<>();
+		this.pilhaTipo = new Stack<String>();
+		this.tabelaSimbolo = new HashMap<String, String>();
+		this.listaIdentificadores = new ArrayList<String>();
+		this.nomeArquivo = nomeArquivo;
 	}
 
 	public void executeAction(int action, Token token) throws SemanticError {
@@ -66,6 +71,15 @@ public class Semantico implements Constants {
 		case 14:
 			acao_14();
 			break;
+		case 15:
+			acao_15();
+			break;
+		case 16:
+			acao_16();
+			break;
+		case 17:
+			acao_17();
+			break;
 		case 24:
 			acao_24(token);
 			break;
@@ -102,7 +116,7 @@ public class Semantico implements Constants {
 			empilhaInt();
 		}
 
-		codigo.append("add/n");
+		codeAppend("add");
 
 	}
 
@@ -112,30 +126,30 @@ public class Semantico implements Constants {
 
 		empilhaFloat();
 
-		codigo.append("sub/n");
+		codeAppend("sub");
 	}
 
 	private void acao_03() {
 		empilhaInt();
-		codigo.append("mul/n");
+		codeAppend("mul");
 	}
 
 	private void acao_04() {
 		pilhaTipo.push(ETipo.FLOAT.toString());
-		codigo.append("div/n");
+		codeAppend("div");
 	}
 
 	private void acao_05(Token token) {
-		codigo.append("ldc.i8 " + token.getLexeme());
+		codeAppend("ldc.i8 " + token.getLexeme());
 	}
 
 	private void acao_06(Token token) {
-		codigo.append("ldc.r8 " + token.getLexeme());
+		codeAppend("ldc.r8 " + token.getLexeme());
 	}
 
 	private void acao_07() {
-		codigo.append("ldc.i8 -1");
-		codigo.append("mul/n");
+		codeAppend("ldc.i8 -1");
+		codeAppend("mul");
 	}
 
 	private void acao_08() {
@@ -144,7 +158,7 @@ public class Semantico implements Constants {
 
 		if (tipo1.equalsIgnoreCase(tipo2)) {
 			pilhaTipo.push(ETipo.BOOLEAN.toString());
-			codigo.append("clt/n");
+			codeAppend("clt");
 		} else {
 			// senão erro semântico, halt
 		}
@@ -156,7 +170,7 @@ public class Semantico implements Constants {
 		String tipo2 = pilhaTipo.pop();
 		if (tipo1.equalsIgnoreCase(tipo2)) {
 			pilhaTipo.push(ETipo.BOOLEAN.toString());
-			codigo.append("cgt/n");
+			codeAppend("cgt");
 		} else {
 			// senão erro semântico, halt
 		}
@@ -167,7 +181,7 @@ public class Semantico implements Constants {
 		String tipo2 = pilhaTipo.pop();
 		if (tipo1.equalsIgnoreCase(tipo2)) {
 			pilhaTipo.push(ETipo.BOOLEAN.toString());
-			codigo.append("ceq/n");
+			codeAppend("ceq");
 		} else {
 			// senão erro semântico, halt
 		}
@@ -176,23 +190,23 @@ public class Semantico implements Constants {
 	private void acao_11(Token token) {
 		pilhaTipo.push(ETipo.BOOLEAN.toString());
 		if (token.getLexeme().equalsIgnoreCase("true")) {
-			codigo.append("ldc.i4.1/n");
+			codeAppend("ldc.i4.1");
 		} else {
-			codigo.append("ldc.i4.0/n");
+			codeAppend("ldc.i4.0");
 		}
 	}
 
 	private void acao_12() {
 		pilhaTipo.push(ETipo.BOOLEAN.toString());
-		codigo.append("ldc.i4.0/n");
+		codeAppend("ldc.i4.0");
 	}
 
 	private void acao_13() {
 		String tipo = pilhaTipo.pop();
 		if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.toString())) {
 			pilhaTipo.push(ETipo.BOOLEAN.toString());
-			codigo.append("ldc.i4.1/n");
-			codigo.append("xor/n");
+			codeAppend("ldc.i4.1");
+			codeAppend("xor");
 		} else {
 			// senão erro semântico, halt
 		}
@@ -213,59 +227,87 @@ public class Semantico implements Constants {
 
 		// Java 7 \0/
 		switch (tipo) {
-		case "int":
-			codigo.append("call void [mscorlib]System.Console::Write(int64)/n");
+		case "int64":
+			codeAppend("call void [mscorlib]System.Console::Write(" + ETipo.INT.getTipoMSIL() + ")");
 			break;
-		case "float":
-			codigo.append("call void [mscorlib]System.Console::Write(float64)/n");
+		case "float64":
+			codeAppend("call void [mscorlib]System.Console::Write(" + ETipo.FLOAT.getTipoMSIL() + ")");
 			break;
-		case "boolean":
-			codigo.append("call void [mscorlib]System.Console::Write(bool)/n");
+		case "bool":
+			codeAppend("call void [mscorlib]System.Console::Write(" + ETipo.BOOLEAN.getTipoMSIL() + ")");
 			break;
 		}
+		codeAppend("");
+	}
+
+	/**
+	 * Início do programa.
+	 */
+	private void acao_15() {
+		codeAppend(".assembly extern mscorlib{}");
+		codeAppend(".assembly " + nomeArquivo + "{}");
+		codeAppend(".module " + nomeArquivo + ".exe");
+		codeAppend("");
+		codeAppend(".class public _publica{");
+		codeAppend(".method static public void _principal()");
+		codeAppend("{");
+		codeAppend(".entrypoint");
+	}
+
+	/**
+	 * Fim do programa.
+	 */
+	private void acao_16() {
+		codeAppend("ret");
+		codeAppend("}");
+		codeAppend("}");
+	}
+
+	private void acao_17() {
+		codeAppend("ldstr " + '\"' + "\\n" + '\"');
+		codeAppend("call void [mscorlib]System.Console::Write(" + ETipo.STRING.getTipoMSIL() + ")");
+		codeAppend("");
 	}
 
 	private void acao_24(Token token) {
-		// FIXME: fazer o que com tipo? push na pilha?
 		switch (token.getLexeme()) {
-		case "int":
-			// tipo = "int64";
-			pilhaTipo.push("int64");
+		case "integer":
+			pilhaTipo.push(ETipo.INT.getTipoMSIL());
 			break;
 		case "real":
-			// tipo = "float64";
-			pilhaTipo.push("float64");
+			pilhaTipo.push(ETipo.FLOAT.getTipoMSIL());
 			break;
 		}
 	}
 
 	private void acao_25(Token token) {
-		lista.add(token.getLexeme());
+		listaIdentificadores.add(token.getLexeme());
 	}
 
 	private void acao_26() throws SemanticError {
-		for (String id : lista) {
+		String tipo = pilhaTipo.pop();
+		for (String id : listaIdentificadores) {
 			if (tabelaSimbolo.containsKey(id)) {
 				throw new SemanticError("FUUUUU!!!!");
 			}
-			// FIXME: tipo vem da pilha?
-			String tipo = pilhaTipo.pop();
 			tabelaSimbolo.put(id, tipo);
-			codigo.append(".locals (" + tipo + " " + id + ")\n");
+			codeAppend(".locals (" + tipo + " " + id + ")");
+			codeAppend("");
 		}
 	}
 
 	private void acao_27() throws SemanticError {
-		for (String id : lista) {
+		for (String id : listaIdentificadores) {
 			if (!tabelaSimbolo.containsKey(id)) {
 				throw new SemanticError("FUUUUU!!!!");
 			}
 			// FIXME: verificar se não é id de "programa"
 			String tipo = tabelaSimbolo.get(id);
-			codigo.append("call string [mscorlib]System.Console::ReadLine()\n");
+			codeAppend("call string [mscorlib]System.Console::ReadLine()");
 			if (!tipo.equalsIgnoreCase(ETipo.STRING.toString())) {
-				codigo.append("call " + tipo + " [mscorlib]System.Int64::Parse(string)\n");
-				codigo.append("stloc " + id + "\n");
+				codeAppend("call " + tipo + " [mscorlib]System.Int64::Parse(string)");
+				codeAppend("stloc " + id);
+				codeAppend("");
 			}
 		}
 	}
@@ -277,11 +319,11 @@ public class Semantico implements Constants {
 		}
 		// FIXME: verificar se não é id de "programa"
 		pilhaTipo.push(tabelaSimbolo.get(id));
-		codigo.append("ldloc " + id + "\n");
+		codeAppend("ldloc " + id);
 	}
 
 	private void acao_29(Token token) throws SemanticError {
-		String id = pilhaTipo.pop();
+		String id = listaIdentificadores.get(listaIdentificadores.size() - 1);
 		if (!tabelaSimbolo.containsKey(id)) {
 			throw new SemanticError("FUUUUU!!!!");
 		}
@@ -293,14 +335,16 @@ public class Semantico implements Constants {
 		if (tipo1 != tipo2) {
 			throw new SemanticError("FUUUUU!!!!");
 		}
+		codeAppend("stloc " + id);
+		codeAppend("");
 	}
 
 	private void empilhaInt() {
-		pilhaTipo.push(ETipo.INT.toString());
+		pilhaTipo.push(ETipo.INT.getTipoMSIL());
 	}
 
 	private void empilhaFloat() {
-		pilhaTipo.push(ETipo.FLOAT.toString());
+		pilhaTipo.push(ETipo.FLOAT.getTipoMSIL());
 	}
 
 	private boolean isFloat(String tipo) {
@@ -309,5 +353,20 @@ public class Semantico implements Constants {
 
 	private boolean isInt(String tipo) {
 		return tipo.equalsIgnoreCase(ETipo.INT.toString());
+	}
+
+	/**
+	 * Adiciona a quebra de linha no final do código.
+	 * 
+	 * @param code
+	 *            Código para .NET
+	 */
+	private void codeAppend(String code) {
+		codigo.append(code);
+		codigo.append("\n");
+	}
+
+	public StringBuilder getCodigo() {
+		return codigo;
 	}
 }

@@ -1,4 +1,4 @@
-package br.com.furb.lexico;
+package br.com.furb.comum;
 
 public interface ScannerConstants {
 	int[] SCANNER_TABLE_INDEXES = { 0, 82, 82, 83, 275, 276, 276, 276, 276,
