@@ -1,9 +1,10 @@
 package br.com.furb.ui.barraFerramentas.botoes;
 
 import java.awt.FileDialog;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import javax.swing.JButton;
 
@@ -32,35 +33,34 @@ public class BotaoAbrir extends JButton implements Acao {
 		filePath = fileDialog.getDirectory() + fileDialog.getFile();
 
 		if (!filePath.equalsIgnoreCase("C:\\null")) {
-			frame.getLbFilePath().setText(filePath);
-			frame.getTextEditor().setText(textFileRead(filePath));
-			frame.getKeyListener().setTextoEditor("");
-			frame.getTextMsg().setText("");
-			frame.getLbStatus().setText(EStatus.NAO_MODIFICADO.toString());
-			frame.getKeyListener().setTextoEditor(frame.getTextEditor().getText());
+			try {
+				// 1º tenta ler depois seta o caminho do arquivo e as demais informações
+				frame.getTextEditor().setText(textFileRead(filePath));
+				frame.getLbFilePath().setText(filePath);
+				frame.getKeyListener().setTextoEditor("");
+				frame.getTextMsg().setText("");
+				frame.getLbStatus().setText(EStatus.NAO_MODIFICADO.toString());
+				frame.getKeyListener().setTextoEditor(frame.getTextEditor().getText());
+			} catch (ClassNotFoundException | IOException e) {
+				System.err.println("ERRO FATAL!\nNão foi possível realizar a leitura do arquivo!");
+				e.printStackTrace();
+			}
+
 		}
 	}
 
-	public String textFileRead(String filePath) {
+	public String textFileRead(String name) throws IOException, ClassNotFoundException {
 		String text = "";
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader(filePath));
-			while (br.ready()) {
-				text += br.readLine() + "\n";
-			}
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-			text = "";
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+
+		FileInputStream fs = new FileInputStream(name);
+		BufferedInputStream bs = new BufferedInputStream(fs);
+		ObjectInputStream objInput = new ObjectInputStream(bs);
+
+		text = (String) objInput.readObject();
+
+		objInput.close();
+		bs.close();
+		fs.close();
 
 		return text;
 	}

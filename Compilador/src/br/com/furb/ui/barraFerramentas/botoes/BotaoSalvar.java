@@ -3,11 +3,9 @@ package br.com.furb.ui.barraFerramentas.botoes;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 
@@ -53,20 +51,20 @@ public class BotaoSalvar extends JButton implements Acao {
 	}
 
 	private void salvar(String absolutePath, String buffer) throws IOException {
-		DataOutputStream outputStream = newDataOutputStream(absolutePath);
-
-		outputStream.writeUTF(buffer);
-
-		outputStream.flush();
-		outputStream.close();
-	}
-
-	private DataOutputStream newDataOutputStream(String absolutePath) throws FileNotFoundException {
-		File file = new File(absolutePath);
-		FileOutputStream fileOutPutStream = new FileOutputStream(file, true);
+		FileOutputStream fileOutPutStream = new FileOutputStream(absolutePath, false);
 		BufferedOutputStream bufferedOutPutStream = new BufferedOutputStream(fileOutPutStream);
-		DataOutputStream outPutStream = new DataOutputStream(bufferedOutPutStream);
-		return outPutStream;
+
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutPutStream);
+		objectOutputStream.writeObject(buffer);
+		objectOutputStream.flush();
+		objectOutputStream.close();
+
+		bufferedOutPutStream.flush();
+		bufferedOutPutStream.close();
+
+		fileOutPutStream.flush();
+		fileOutPutStream.close();
+
 	}
 
 	private class Dialog extends FileDialog {
