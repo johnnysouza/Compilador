@@ -2,16 +2,14 @@ package br.com.furb.ui.barraFerramentas.botoes;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 
 import br.com.furb.enumeracao.EStatus;
 import br.com.furb.ui.CompilerInterface;
 import br.com.furb.ui.barraFerramentas.acao.Acao;
+import br.com.furb.ui.barraFerramentas.acao.AcaoSalvar;
 
 public class BotaoSalvar extends JButton implements Acao {
 	private static final long serialVersionUID = 1L;
@@ -38,7 +36,7 @@ public class BotaoSalvar extends JButton implements Acao {
 
 			try {
 				if (!absolutePath.equalsIgnoreCase("C:\\null")) {
-					salvar(absolutePath, frame.getTextEditor().getText());
+					AcaoSalvar.salvar(absolutePath, frame.getTextEditor().getText());
 					frame.getLbFilePath().setText(absolutePath);
 					frame.getTextMsg().setText("");
 					frame.getLbStatus().setText(EStatus.NAO_MODIFICADO.toString());
@@ -48,23 +46,6 @@ public class BotaoSalvar extends JButton implements Acao {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	private void salvar(String absolutePath, String buffer) throws IOException {
-		FileOutputStream fileOutPutStream = new FileOutputStream(absolutePath, false);
-		BufferedOutputStream bufferedOutPutStream = new BufferedOutputStream(fileOutPutStream);
-
-		ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutPutStream);
-		objectOutputStream.writeObject(buffer);
-		objectOutputStream.flush();
-		objectOutputStream.close();
-
-		bufferedOutPutStream.flush();
-		bufferedOutPutStream.close();
-
-		fileOutPutStream.flush();
-		fileOutPutStream.close();
-
 	}
 
 	private class Dialog extends FileDialog {
