@@ -7,7 +7,7 @@ ParserName = Sintatico
 SemanticName = Semantico
 ScannerCaseSensitive = false
 ScannerTable = Compact
-Input = Stream
+Input = String
 Parser = LL
 #RegularDefinitions
 min: [a-z]
@@ -140,9 +140,9 @@ pr_return = identificador : "return"
 <lista_identificadores_1> ::= î | "," <lista_identificadores> ;
 <valor> ::= î | "=" <constante> #30 ;
 <constante> ::= constanteInteira | constanteFloat | constanteString | pr_true | pr_false ;
-<comando> ::= identificador #25 <comando_1> | <cmd_entrada> | <cmd_saida> | <cmd_selecao> | <cmd_repeticao> ;
+<comando> ::= identificador <comando_1> | <cmd_entrada> | <cmd_saida> | <cmd_selecao> | <cmd_repeticao> ;
 <comando_1> ::= <cmd_atribuicao> | <cmd_chamada_modulo> ;
-<cmd_atribuicao> ::= "=" <expressao> #29 ";" ;
+<cmd_atribuicao> ::= #25 "=" <expressao> #29 ";" ;
 <cmd_entrada> ::= pr_scan "(" <lista_identificadores> #27 ")" ";" ;
 <cmd_saida> ::= pr_print "(" <lista_expressoes> ")" ";" | pr_println "(" <lista_expressoes> #17 ")" ";" ;
 <lista_expressoes> ::= <expressao> #14 <lista_expressoes_1> ;
