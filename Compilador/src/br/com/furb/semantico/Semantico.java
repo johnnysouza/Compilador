@@ -16,6 +16,7 @@ public class Semantico implements Constants {
 	private Map<String, String> tabelaSimbolo;
 	private List<String> listaIdentificadores;
 	private String nomeArquivo;
+	private String operadorRelacional;
 
 	public Semantico(String nomeArquivo) {
 		this.codigo = new StringBuilder();
@@ -23,6 +24,7 @@ public class Semantico implements Constants {
 		this.tabelaSimbolo = new HashMap<String, String>();
 		this.listaIdentificadores = new ArrayList<String>();
 		this.nomeArquivo = nomeArquivo;
+		operadorRelacional = "";
 	}
 
 	public void executeAction(int action, Token token) throws SemanticError {
@@ -87,13 +89,13 @@ public class Semantico implements Constants {
 			acao_19();
 			break;
 		case 20:
-			acao_20();
+			acao_20(token);
 			break;
 		case 21:
 			acao_21();
 			break;
 		case 22:
-			acao_22();
+			acao_22(token);
 			break;
 		case 23:
 			acao_23();
@@ -200,12 +202,14 @@ public class Semantico implements Constants {
 		codeAppend("ldc.r8 " + token.getLexeme());
 	}
 
-	private void acao_07() {
+	private void acao_07() throws SemanticError {
 		String tipo = pilhaTipo.peek();
 
 		if (isInt(tipo) || isFloat(tipo)) {
 			codeAppend("ldc.i8 -1");
 			codeAppend("mul");
+		} else {
+			throw new SemanticError("Tipo incompatível para operação de inversão de sinal");
 		}
 	}
 
@@ -218,7 +222,7 @@ public class Semantico implements Constants {
 			codeAppend("clt");
 		} else {
 			throw new SemanticError(
-					"Tipos imcompatíves para relação \"menor que\" (<)");
+					"Tipos incompatíves para relação \"menor que\" (<)");
 		}
 
 	}
@@ -232,7 +236,7 @@ public class Semantico implements Constants {
 			codeAppend("cgt");
 		} else {
 			throw new SemanticError(
-					"Tipos imcompatíves para relação \"maior que\" (>)");
+					"Tipos incompatíves para relação \"maior que\" (>)");
 		}
 	}
 
@@ -245,7 +249,7 @@ public class Semantico implements Constants {
 			codeAppend("ceq");
 		} else {
 			throw new SemanticError(
-					"Tipos imcompatíves para relação \"igual a\" (=)");
+					"Tipos incompatíves para relação \"igual a\" (=)");
 		}
 	}
 
@@ -267,7 +271,7 @@ public class Semantico implements Constants {
 			codeAppend("xor");
 		} else {
 			throw new SemanticError(
-					"Tipo imcompatível para operação lógica not, esperado tipo boolean");
+					"Tipo incompatível para operação lógica not, esperado tipo boolean");
 		}
 	}
 
@@ -327,27 +331,67 @@ public class Semantico implements Constants {
 	}
 
 	private void acao_18() {
-		// TODO implementar
+		codeAppend("or");
 	}
 
 	private void acao_19() {
-		// TODO implementar
+		codeAppend("and");
 	}
 
-	private void acao_20() {
-		// TODO implementar
+	private void acao_20(Token token) {
+		operadorRelacional = token.getLexeme().trim();
 	}
 
-	private void acao_21() {
-		// TODO implementar
+	private void acao_21() throws SemanticError {
+		String tipo1 = pilhaTipo.pop();
+		String tipo2 = pilhaTipo.pop();
+
+		if (tipo1 == tipo2) {
+			switch (operadorRelacional) {
+			case "==":
+				codeAppend("ceq");
+				break;
+			case "!=":
+				codeAppend("ceq");
+				codeAppend("ldc.i4.1");
+				codeAppend("xor");
+				break;
+			case "<":
+				codeAppend("clt");
+				break;
+			case "<=":
+				codeAppend("cgt");
+				codeAppend("ldc.i4.0");
+				codeAppend("ceq");
+				break;
+			case ">":
+				codeAppend("cgt");
+				break;
+			case ">=":
+				codeAppend("clt");
+				codeAppend("ldc.i4.0");
+				codeAppend("ceq");
+				break;
+			default:
+				throw new SemanticError("Operador relacional inválido");
+			}
+			pilhaTipo.push(ETipo.BOOLEAN.getTipoMSIL());
+		} else {
+			throw new SemanticError("Tipos incompatíveis para operação relacional");
+		}
 	}
 
-	private void acao_22() {
-		// TODO implementar
+	private void acao_22(Token token) {
+		pilhaTipo.push(ETipo.STRING.getTipoMSIL());
+		codeAppend("ldstr " + token.getLexeme());
 	}
 
-	private void acao_23() {
-		// TODO implementar
+	private void acao_23() throws SemanticError {
+		String tipo = pilhaTipo.peek();
+
+		if (!(isInt(tipo) || isFloat(tipo))) {
+			throw new SemanticError("Tipo incompatível para operação de sinal");
+		}
 	}
 
 	private void acao_24(Token token) {
