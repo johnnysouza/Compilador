@@ -1,10 +1,9 @@
 package br.com.furb.ui.barraFerramentas.botoes;
 
 import java.awt.FileDialog;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import javax.swing.JButton;
 
@@ -49,19 +48,20 @@ public class BotaoAbrir extends JButton implements Acao {
 		}
 	}
 
-	public String textFileRead(String name) throws IOException, ClassNotFoundException {
-		String text = "";
+	private String textFileRead(String fileName) throws ClassNotFoundException, IOException {
+		FileReader fr = new FileReader(fileName);
+		StringBuilder sb = new StringBuilder();
+		BufferedReader bufferedReader = new BufferedReader(fr);
 
-		FileInputStream fs = new FileInputStream(name);
-		BufferedInputStream bs = new BufferedInputStream(fs);
-		ObjectInputStream objInput = new ObjectInputStream(bs);
+		int c = 0;
+		while ((c = bufferedReader.read()) != -1) {
+			sb.append((char) c);
+		}
 
-		text = (String) objInput.readObject();
+		bufferedReader.close();
+		fr.close();
 
-		objInput.close();
-		bs.close();
-		fs.close();
-
-		return text;
+		return sb.toString();
 	}
+
 }
