@@ -17,6 +17,8 @@ public class Semantico implements Constants {
 	private List<String> listaIdentificadores;
 	private String nomeArquivo;
 	private String operadorRelacional;
+	private int contRotulo;
+	private LabelsSelecao labels;
 
 	public Semantico(String nomeArquivo) {
 		this.codigo = new StringBuilder();
@@ -25,6 +27,8 @@ public class Semantico implements Constants {
 		this.listaIdentificadores = new ArrayList<String>();
 		this.nomeArquivo = nomeArquivo;
 		operadorRelacional = "";
+		contRotulo = 0;
+		labels = new LabelsSelecao();
 	}
 
 	public void executeAction(int action, Token token) throws SemanticError {
@@ -442,7 +446,7 @@ public class Semantico implements Constants {
 			codeAppend("call string [mscorlib]System.Console::ReadLine()");
 			if (!tipo.equalsIgnoreCase(ETipo.STRING.toString())) {
 				codeAppend("call " + tipo
-						+ " [mscorlib]System.Int64::Parse(string)");
+						+ " [mscorlib]System." + tipo + "::Parse(string)");
 				codeAppend("stloc " + id);
 				codeAppend();
 			}
@@ -480,7 +484,7 @@ public class Semantico implements Constants {
 		// tipo do id
 		String tipo2 = tabelaSimbolo.get(id);
 		if (tipo1 != tipo2) {
-			throw new SemanticError("FUUUUU!!!!");
+			throw new SemanticError("Tipos incompatíveis");
 		}
 		codeAppend("stloc " + id);
 		codeAppend();
@@ -490,16 +494,28 @@ public class Semantico implements Constants {
 		// TODO implementar
 	}
 
-	private void acao_31() {
-		// TODO implementar
+	private void acao_31() throws SemanticError {
+		String tipo = pilhaTipo.pop();
+		if (tipo != ETipo.BOOLEAN.getTipoMSIL()) {
+			throw new SemanticError("Tipo incompativel para comando de selação, esperado " + ETipo.BOOLEAN.getTipoMSIL() + ", encontrado " + tipo);
+		}
+		String labelElse = "L" + contRotulo;
+		contRotulo++;
+		labels.setLabelElse(labelElse);
+		codeAppend("brfalse " + labelElse);
 	}
 
 	private void acao_32() {
-		// TODO implementar
+		codeAppend(labels.getLabelSaida() + ":");
+		labels = new LabelsSelecao(); //garantir que limpou os labels para os próximos
 	}
 
 	private void acao_33() {
-		// TODO implementar
+		String labelSaida = "L" + contRotulo;
+		contRotulo++;
+		labels.setLabelSaida(labelSaida);
+		codeAppend("br " + labelSaida);
+		codeAppend(labels.getLabelElse() + ":");
 	}
 
 	private void acao_34() {
