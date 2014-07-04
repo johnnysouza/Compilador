@@ -352,7 +352,7 @@ public class CompilerInterface extends JFrame {
 	}
 
 	public ImageIcon getImageIcon(String nomeIcone) {
-		return new ImageIcon(getClass().getResource("/Images/" + nomeIcone));
+		return new ImageIcon("Images/" + nomeIcone);
 	}
 
 	public JLabel getLbFilePath() {
