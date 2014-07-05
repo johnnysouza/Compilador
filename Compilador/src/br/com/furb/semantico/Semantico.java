@@ -191,12 +191,21 @@ public class Semantico implements Constants {
 	private void acao_04(Token token) throws SemanticError {
 		String tipo1 = pilhaTipo.pop();
 		String tipo2 = pilhaTipo.pop();
+		
+		validaTipoDivisao(tipo1, token.getPosition());
+		validaTipoDivisao(tipo2, token.getPosition());
 
-		if (tipo1.equalsIgnoreCase(tipo2)) {
-			pilhaTipo.push(tipo1);
-			codeAppend("div");
+		if (isFloat(tipo1) || isFloat(tipo2)) {
+			empilhaFloat();
 		} else {
-			throw new SemanticError("Tipos incompatíves para divisão", token.getPosition());
+			empilhaInt();
+		}
+		codeAppend("div");
+	}
+	
+	private void validaTipoDivisao(String tipo, int posicaoToken) throws SemanticError{
+		if (!(tipo.equalsIgnoreCase(ETipo.INT.getTipoMSIL()) || tipo.equalsIgnoreCase(ETipo.FLOAT.getTipoMSIL()))) {
+			throw new SemanticError("Tipo " + tipo + " incompatível para divisão", posicaoToken);
 		}
 	}
 
