@@ -68,7 +68,10 @@ public abstract class AcaoCompilar extends JButton implements Acao {
 			sb.append(e.getMessage());
 			frame.getTextMsg().setText(sb.toString());
 		} catch (SemanticError e) {
-			// não acontece ainda
+			StringBuilder sb = new StringBuilder();
+			tratarLinhaErroCompilacao(sb, frame, e);
+			sb.append(e.getMessage());
+			frame.getTextMsg().setText(sb.toString());
 		}
 
 	}

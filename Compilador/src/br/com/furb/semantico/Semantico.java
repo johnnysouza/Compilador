@@ -19,6 +19,8 @@ public class Semantico implements Constants {
 	private String operadorRelacional;
 	private int contRotulo;
 	private Stack<String> pilhaRotulos;
+	private String tipoAcao30 = "";
+	private List<String> idsAcao30;
 
 	public Semantico(String nomeArquivo) {
 		this.codigo = new StringBuilder();
@@ -27,8 +29,10 @@ public class Semantico implements Constants {
 		this.listaIdentificadores = new ArrayList<String>();
 		this.nomeArquivo = nomeArquivo;
 		operadorRelacional = "";
-		contRotulo = 0;
+		contRotulo = 1;
 		pilhaRotulos = new Stack<String>();
+		tipoAcao30 = "";
+		idsAcao30 = new ArrayList<String>();
 	}
 
 	public void executeAction(int action, Token token) throws SemanticError {
@@ -45,7 +49,7 @@ public class Semantico implements Constants {
 			acao_03();
 			break;
 		case 4:
-			acao_04();
+			acao_04(token);
 			break;
 		case 5:
 			acao_05(token);
@@ -54,16 +58,16 @@ public class Semantico implements Constants {
 			acao_06(token);
 			break;
 		case 7:
-			acao_07();
+			acao_07(token);
 			break;
 		case 8:
-			acao_08();
+			acao_08(token);
 			break;
 		case 9:
-			acao_09();
+			acao_09(token);
 			break;
 		case 10:
-			acao_10();
+			acao_10(token);
 			break;
 		case 11:
 			acao_11(token);
@@ -72,7 +76,7 @@ public class Semantico implements Constants {
 			acao_12();
 			break;
 		case 13:
-			acao_13();
+			acao_13(token);
 			break;
 		case 14:
 			acao_14();
@@ -96,13 +100,13 @@ public class Semantico implements Constants {
 			acao_20(token);
 			break;
 		case 21:
-			acao_21();
+			acao_21(token);
 			break;
 		case 22:
 			acao_22(token);
 			break;
 		case 23:
-			acao_23();
+			acao_23(token);
 			break;
 		case 24:
 			acao_24(token);
@@ -111,10 +115,10 @@ public class Semantico implements Constants {
 			acao_25(token);
 			break;
 		case 26:
-			acao_26();
+			acao_26(token);
 			break;
 		case 27:
-			acao_27();
+			acao_27(token);
 			break;
 		case 28:
 			acao_28(token);
@@ -123,10 +127,10 @@ public class Semantico implements Constants {
 			acao_29(token);
 			break;
 		case 30:
-			acao_30();
+			acao_30(token);
 			break;
 		case 31:
-			acao_31();
+			acao_31(token);
 			break;
 		case 32:
 			acao_32();
@@ -138,7 +142,7 @@ public class Semantico implements Constants {
 			acao_34();
 			break;
 		case 35:
-			acao_35();
+			acao_35(token);
 			break;
 		}
 
@@ -184,7 +188,7 @@ public class Semantico implements Constants {
 		codeAppend("mul");
 	}
 
-	private void acao_04() throws SemanticError {
+	private void acao_04(Token token) throws SemanticError {
 		String tipo1 = pilhaTipo.pop();
 		String tipo2 = pilhaTipo.pop();
 
@@ -192,7 +196,7 @@ public class Semantico implements Constants {
 			pilhaTipo.push(tipo1);
 			codeAppend("div");
 		} else {
-			throw new SemanticError("Tipos incompatíves para divisão");
+			throw new SemanticError("Tipos incompatíves para divisão", token.getPosition());
 		}
 	}
 
@@ -203,21 +207,22 @@ public class Semantico implements Constants {
 
 	private void acao_06(Token token) {
 		empilhaFloat();
-		codeAppend("ldc.r8 " + token.getLexeme());
+		codeAppend("ldc.r8 " + token.getLexeme().replace(",", "."));
 	}
 
-	private void acao_07() throws SemanticError {
+	private void acao_07(Token token) throws SemanticError {
 		String tipo = pilhaTipo.peek();
 
 		if (isInt(tipo) || isFloat(tipo)) {
 			codeAppend("ldc.i8 -1");
 			codeAppend("mul");
 		} else {
-			throw new SemanticError("Tipo incompatível para operação de inversão de sinal");
+			throw new SemanticError(
+					"Tipo incompatível para operação de inversão de sinal", token.getPosition());
 		}
 	}
 
-	private void acao_08() throws SemanticError {
+	private void acao_08(Token token) throws SemanticError {
 		String tipo1 = pilhaTipo.pop();
 		String tipo2 = pilhaTipo.pop();
 
@@ -226,12 +231,12 @@ public class Semantico implements Constants {
 			codeAppend("clt");
 		} else {
 			throw new SemanticError(
-					"Tipos incompatíves para relação \"menor que\" (<)");
+					"Tipos incompatíves para relação \"menor que\" (<)", token.getPosition());
 		}
 
 	}
 
-	private void acao_09() throws SemanticError {
+	private void acao_09(Token token) throws SemanticError {
 		String tipo1 = pilhaTipo.pop();
 		String tipo2 = pilhaTipo.pop();
 
@@ -240,11 +245,11 @@ public class Semantico implements Constants {
 			codeAppend("cgt");
 		} else {
 			throw new SemanticError(
-					"Tipos incompatíves para relação \"maior que\" (>)");
+					"Tipos incompatíves para relação \"maior que\" (>)", token.getPosition());
 		}
 	}
 
-	private void acao_10() throws SemanticError {
+	private void acao_10(Token token) throws SemanticError {
 		String tipo1 = pilhaTipo.pop();
 		String tipo2 = pilhaTipo.pop();
 
@@ -253,7 +258,7 @@ public class Semantico implements Constants {
 			codeAppend("ceq");
 		} else {
 			throw new SemanticError(
-					"Tipos incompatíves para relação \"igual a\" (=)");
+					"Tipos incompatíves para relação \"igual a\" (=)", token.getPosition());
 		}
 	}
 
@@ -267,7 +272,7 @@ public class Semantico implements Constants {
 		codeAppend("ldc.i4.0");
 	}
 
-	private void acao_13() throws SemanticError {
+	private void acao_13(Token token) throws SemanticError {
 		String tipo = pilhaTipo.pop();
 		if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.toString())) {
 			pilhaTipo.push(ETipo.BOOLEAN.toString());
@@ -275,7 +280,7 @@ public class Semantico implements Constants {
 			codeAppend("xor");
 		} else {
 			throw new SemanticError(
-					"Tipo incompatível para operação lógica not, esperado tipo boolean");
+					"Tipo incompatível para operação lógica not, esperado tipo boolean", token.getPosition());
 		}
 	}
 
@@ -346,7 +351,7 @@ public class Semantico implements Constants {
 		operadorRelacional = token.getLexeme().trim();
 	}
 
-	private void acao_21() throws SemanticError {
+	private void acao_21(Token token) throws SemanticError {
 		String tipo1 = pilhaTipo.pop();
 		String tipo2 = pilhaTipo.pop();
 
@@ -377,11 +382,12 @@ public class Semantico implements Constants {
 				codeAppend("ceq");
 				break;
 			default:
-				throw new SemanticError("Operador relacional inválido");
+				throw new SemanticError("Operador relacional inválido", token.getPosition());
 			}
 			pilhaTipo.push(ETipo.BOOLEAN.getTipoMSIL());
 		} else {
-			throw new SemanticError("Tipos incompatíveis para operação relacional");
+			throw new SemanticError(
+					"Tipos incompatíveis para operação relacional", token.getPosition());
 		}
 	}
 
@@ -390,11 +396,11 @@ public class Semantico implements Constants {
 		codeAppend("ldstr " + token.getLexeme());
 	}
 
-	private void acao_23() throws SemanticError {
+	private void acao_23(Token token) throws SemanticError {
 		String tipo = pilhaTipo.peek();
 
 		if (!(isInt(tipo) || isFloat(tipo))) {
-			throw new SemanticError("Tipo incompatível para operação de sinal");
+			throw new SemanticError("Tipo incompatível para operação de sinal", token.getPosition());
 		}
 	}
 
@@ -403,7 +409,7 @@ public class Semantico implements Constants {
 		case "integer":
 			pilhaTipo.push(ETipo.INT.getTipoMSIL());
 			break;
-		case "real":
+		case "float":
 			pilhaTipo.push(ETipo.FLOAT.getTipoMSIL());
 			break;
 		case "string":
@@ -419,34 +425,44 @@ public class Semantico implements Constants {
 		listaIdentificadores.add(token.getLexeme());
 	}
 
-	private void acao_26() throws SemanticError {
+	private void acao_26(Token token) throws SemanticError {
+		idsAcao30.clear();
+
 		String tipo = pilhaTipo.pop();
 		for (String id : listaIdentificadores) {
 			if (tabelaSimbolo.containsKey(id)) {
-				throw new SemanticError("Identificador " + id + " já foi declarado");
+				throw new SemanticError("Identificador " + id
+						+ " já foi declarado", token.getPosition());
 			}
 			tabelaSimbolo.put(id, tipo);
 			codeAppend(".locals (" + tipo + " " + id + ")");
 			codeAppend();
+			idsAcao30.add(id);
 		}
+		tipoAcao30 = tipo;
+		listaIdentificadores.clear();
 	}
 
-	private void acao_27() throws SemanticError {
-		for (String id : listaIdentificadores) {
+	private void acao_27(Token token) throws SemanticError {
+		for (int i = 0; i < listaIdentificadores.size(); i++) {
+			String id = listaIdentificadores.remove(i);
 			if (!tabelaSimbolo.containsKey(id)) {
-				throw new SemanticError("Identificador " + id + " não declarado");
+				throw new SemanticError("Identificador (" + id
+						+ ") não declarado", token.getPosition());
 			}
-			
-			// FIXME: verificar se não é id de "programa", falta verificar se é isso mesmo
+
+			// FIXME: verificar se não é id de "programa", falta verificar se é
+			// isso mesmo
 			if (id.equalsIgnoreCase(nomeArquivo)) {
-				throw new SemanticError(""); //TODO verificar mensagem adequada
+				throw new SemanticError("", token.getPosition()); // TODO verificar mensagem adequada
 			}
 
 			String tipo = tabelaSimbolo.get(id);
 			codeAppend("call string [mscorlib]System.Console::ReadLine()");
 			if (!tipo.equalsIgnoreCase(ETipo.STRING.toString())) {
-				codeAppend("call " + tipo
-						+ " [mscorlib]System." + ETipo.findClasseFromTipoMSIL(tipo) + "::Parse(string)");
+				codeAppend("call " + tipo + " [mscorlib]System."
+						+ ETipo.findClasseFromTipoMSIL(tipo)
+						+ "::Parse(string)");
 				codeAppend("stloc " + id);
 				codeAppend();
 			}
@@ -456,12 +472,13 @@ public class Semantico implements Constants {
 	private void acao_28(Token token) throws SemanticError {
 		String id = token.getLexeme();
 		if (!tabelaSimbolo.containsKey(id)) {
-			throw new SemanticError("Identificador " + id + " não declarado");
+			throw new SemanticError("Identificador " + id + " não declarado", token.getPosition());
 		}
 
-		// FIXME: verificar se não é id de "programa", falta verificar se é isso mesmo
+		// FIXME: verificar se não é id de "programa", falta verificar se é isso
+		// mesmo
 		if (id.equalsIgnoreCase(nomeArquivo)) {
-			throw new SemanticError(""); //TODO verificar mensagem adequada
+			throw new SemanticError("", token.getPosition()); // TODO verificar mensagem adequada
 		}
 
 		pilhaTipo.push(tabelaSimbolo.get(id));
@@ -471,12 +488,13 @@ public class Semantico implements Constants {
 	private void acao_29(Token token) throws SemanticError {
 		String id = listaIdentificadores.get(listaIdentificadores.size() - 1);
 		if (!tabelaSimbolo.containsKey(id)) {
-			throw new SemanticError("FUUUUU!!!!");
+			throw new SemanticError("FUUUUU!!!!", token.getPosition());
 		}
 
-		// FIXME: verificar se não é id de "programa", falta verificar se é isso mesmo
+		// FIXME: verificar se não é id de "programa", falta verificar se é isso
+		// mesmo
 		if (id.equalsIgnoreCase(nomeArquivo)) {
-			throw new SemanticError(""); //TODO verificar mensagem adequada
+			throw new SemanticError("", token.getPosition()); // TODO verificar mensagem adequada
 		}
 
 		// tipo expressão
@@ -484,22 +502,68 @@ public class Semantico implements Constants {
 		// tipo do id
 		String tipo2 = tabelaSimbolo.get(id);
 		if (tipo1 != tipo2) {
-			throw new SemanticError("Tipos incompatíveis");
+			throw new SemanticError("Tipos incompatíveis", token.getPosition());
 		}
 		codeAppend("stloc " + id);
 		codeAppend();
 	}
 
-	private void acao_30() {
-		// TODO implementar
-	}
+	private void acao_30(Token token) throws SemanticError{
+		String tipo = tipoAcao30;
+		int idTipo = token.getId();
+		if (tipo.equalsIgnoreCase(ETipo.INT.getTipoMSIL())) {
+			if (idTipo == t_constanteInteira) {
+				for (String idAcao : idsAcao30) {
+					codeAppend("ldc.i8 " + token.getLexeme());
+					codeAppend("stloc " + idAcao);
+				}
+			} else {
+				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.INT.getTipoMSIL(), token.getPosition());
+			}
+		} else if (tipo.equalsIgnoreCase(ETipo.FLOAT.getTipoMSIL())) {
+			if (idTipo == t_constanteFloat) {
+				for (String idAcao : idsAcao30) {
+					codeAppend("ldc.r8 " + token.getLexeme().replace(',', '.'));
+					codeAppend("stloc " + idAcao);
+				}
+			} else {
+				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.FLOAT.getTipoMSIL(), token.getPosition());
+			}
+		} else if (tipo.equalsIgnoreCase(ETipo.STRING.getTipoMSIL())) {
+			if (idTipo == t_constanteString) {
+				for (String idAcao : idsAcao30) {
+					codeAppend("ldstr " + token.getLexeme());
+					codeAppend("stloc " + idAcao);
+				}
+			} else {
+				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.STRING.getTipoMSIL(), token.getPosition());
+			}
+		} else if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
+			if (idTipo == t_pr_false) {
+				for (String idAcao : idsAcao30) {
+					codeAppend("ldc.i4.0"); //Falso
+					codeAppend("stloc " + idAcao);
+				}
+			} else if (idTipo == t_pr_true) {
+				for (String idAcao : idsAcao30) {
+					codeAppend("ldc.i4.1"); //True
+					codeAppend("stloc " + idAcao);
+				}
+			} else {
+				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.BOOLEAN.getTipoMSIL(), token.getPosition());
+			}
+		}
+ 	}
 
-	private void acao_31() throws SemanticError {
+	private void acao_31(Token token) throws SemanticError {
 		String tipo = pilhaTipo.pop();
 		if (!tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
-			throw new SemanticError("Tipo incompativel para comando de selação, esperado " + ETipo.BOOLEAN.getTipoMSIL() + ", encontrado " + tipo);
+			throw new SemanticError(
+					"Tipo incompativel para comando de selação, esperado "
+							+ ETipo.BOOLEAN.getTipoMSIL() + ", encontrado "
+							+ tipo, token.getPosition());
 		}
-		String labelElse = "L" + contRotulo;
+		String labelElse = "r" + contRotulo;
 		contRotulo++;
 		pilhaRotulos.push(labelElse);
 		codeAppend("brfalse " + labelElse);
@@ -511,25 +575,28 @@ public class Semantico implements Constants {
 
 	private void acao_33() {
 		String rotuloElse = pilhaRotulos.pop();
-		String labelSaida = "L" + contRotulo;
+		String labelSaida = "r" + contRotulo;
 		contRotulo++;
 		pilhaRotulos.push(labelSaida);
-		
+
 		codeAppend("br " + labelSaida);
 		codeAppend(rotuloElse + ":");
 	}
 
 	private void acao_34() {
-		String rotuloDo = "L" + contRotulo;
+		String rotuloDo = "r" + contRotulo;
 		contRotulo++;
 		pilhaRotulos.push(rotuloDo);
 		codeAppend(rotuloDo + ":");
 	}
 
-	private void acao_35() throws SemanticError {
+	private void acao_35(Token token) throws SemanticError {
 		String tipo = pilhaTipo.pop();
 		if (!tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
-			throw new SemanticError("Tipo incompativel para comando de repetição, esperado " + ETipo.BOOLEAN.getTipoMSIL() + ", encontrado " + tipo);
+			throw new SemanticError(
+					"Tipo incompativel para comando de repetição, esperado "
+							+ ETipo.BOOLEAN.getTipoMSIL() + ", encontrado "
+							+ tipo, token.getPosition());
 		}
 		codeAppend("brtrue " + pilhaRotulos.pop());
 	}
@@ -543,11 +610,11 @@ public class Semantico implements Constants {
 	}
 
 	private boolean isFloat(String tipo) {
-		return tipo.equalsIgnoreCase(ETipo.FLOAT.toString());
+		return tipo.equalsIgnoreCase(ETipo.FLOAT.getTipoMSIL());
 	}
 
 	private boolean isInt(String tipo) {
-		return tipo.equalsIgnoreCase(ETipo.INT.toString());
+		return tipo.equalsIgnoreCase(ETipo.INT.getTipoMSIL());
 	}
 
 	/**
@@ -570,5 +637,21 @@ public class Semantico implements Constants {
 
 	public StringBuilder getCodigo() {
 		return codigo;
+	}
+
+	private String getTipoFromLexico(int idLexico) {
+		switch (idLexico) {
+		case t_constanteInteira:
+			return "INTEGER";
+		case t_constanteFloat:
+			return "FLOAT";
+		case t_constanteString:
+			return "STRING";
+		case t_pr_false:
+		case t_pr_true:
+			return "BOOLEAN";
+		default:
+			return "";
+		}
 	}
 }
