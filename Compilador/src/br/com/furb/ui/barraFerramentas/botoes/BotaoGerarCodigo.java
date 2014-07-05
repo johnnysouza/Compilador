@@ -25,8 +25,10 @@ public class BotaoGerarCodigo extends JButton implements Acao {
 	public void executaAcao(CompilerInterface frame) {
 		if (!frame.getTextEditor().getText().isEmpty()) {
 			try {
-				AcaoCompilar.compilar(frame, getFileName(frame), "\tPrograma compilado com sucesso!");
-				AcaoSalvar.salvar(getFilePath(frame), AcaoCompilar.getSemantico().getCodigo().toString());
+				boolean compSucesso = AcaoCompilar.compilar(frame, getFileName(frame), "\tCódigo objeto gerado com sucesso!");
+				if (compSucesso) {
+					AcaoSalvar.salvar(getFilePath(frame), AcaoCompilar.getSemantico().getCodigo().toString());
+				}
 			} catch (IOException e) {
 				System.err.println("ERRO FATAL!\nNão foi possível salvar o arquivo!");
 				e.printStackTrace();

@@ -91,10 +91,10 @@ public class Semantico implements Constants {
 			acao_17();
 			break;
 		case 18:
-			acao_18();
+			acao_18(token);
 			break;
 		case 19:
-			acao_19();
+			acao_19(token);
 			break;
 		case 20:
 			acao_20(token);
@@ -348,12 +348,24 @@ public class Semantico implements Constants {
 		codeAppend();
 	}
 
-	private void acao_18() {
-		codeAppend("or");
+	private void acao_18(Token token) throws SemanticError {
+		String tipo = pilhaTipo.pop();
+		if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
+			codeAppend("or");
+		} else {
+			throw new SemanticError(
+					"Tipo incompatível para operação de comparação lógica \"ou\", esperado tipo boolean", token.getPosition());
+		}
 	}
 
-	private void acao_19() {
-		codeAppend("and");
+	private void acao_19(Token token) throws SemanticError {
+		String tipo = pilhaTipo.pop();
+		if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
+			codeAppend("and");
+		} else {
+			throw new SemanticError(
+					"Tipo incompatível para operação comparação lógica \"e\", esperado tipo boolean", token.getPosition());
+		}
 	}
 
 	private void acao_20(Token token) {
@@ -365,6 +377,10 @@ public class Semantico implements Constants {
 		String tipo2 = pilhaTipo.pop();
 
 		if (tipo1 == tipo2) {
+			if (tipo1.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
+				throw new SemanticError(
+						"Tipo " + ETipo.BOOLEAN.toString() + " incompatível para operação relacional", token.getPosition());
+			}
 			switch (operadorRelacional) {
 			case "==":
 				codeAppend("ceq");
@@ -430,8 +446,12 @@ public class Semantico implements Constants {
 		}
 	}
 
-	private void acao_25(Token token) {
-		listaIdentificadores.add(token.getLexeme());
+	private void acao_25(Token token) throws SemanticError {
+		String id = token.getLexeme();
+		if (id.equalsIgnoreCase(nomeArquivo)) {
+			throw new SemanticError("Identificador não pode ser igual ao nome do programa", token.getPosition());
+		}
+		listaIdentificadores.add(id);
 	}
 
 	private void acao_26(Token token) throws SemanticError {
@@ -460,13 +480,16 @@ public class Semantico implements Constants {
 						+ ") não declarado", token.getPosition());
 			}
 
-			// FIXME: verificar se não é id de "programa", falta verificar se é
-			// isso mesmo
 			if (id.equalsIgnoreCase(nomeArquivo)) {
-				throw new SemanticError("", token.getPosition()); // TODO verificar mensagem adequada
+				throw new SemanticError("Identificador não pode ser igual ao nome do programa", token.getPosition());
 			}
 
 			String tipo = tabelaSimbolo.get(id);
+			
+			if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
+				throw new SemanticError("Identificador não pode ser do tipo " + ETipo.BOOLEAN.getTipoMSIL().toUpperCase() + " para comando de entrada", token.getPosition());
+			}
+			
 			codeAppend("call string [mscorlib]System.Console::ReadLine()");
 			if (!tipo.equalsIgnoreCase(ETipo.STRING.getTipoMSIL())) {
 				codeAppend("call " + tipo + " [mscorlib]System."
@@ -484,10 +507,8 @@ public class Semantico implements Constants {
 			throw new SemanticError("Identificador " + id + " não declarado", token.getPosition());
 		}
 
-		// FIXME: verificar se não é id de "programa", falta verificar se é isso
-		// mesmo
 		if (id.equalsIgnoreCase(nomeArquivo)) {
-			throw new SemanticError("", token.getPosition()); // TODO verificar mensagem adequada
+			throw new SemanticError("Identificador não pode ser igual ao nome do programa", token.getPosition());
 		}
 
 		pilhaTipo.push(tabelaSimbolo.get(id));
@@ -500,10 +521,8 @@ public class Semantico implements Constants {
 			throw new SemanticError("FUUUUU!!!!", token.getPosition());
 		}
 
-		// FIXME: verificar se não é id de "programa", falta verificar se é isso
-		// mesmo
 		if (id.equalsIgnoreCase(nomeArquivo)) {
-			throw new SemanticError("", token.getPosition()); // TODO verificar mensagem adequada
+			throw new SemanticError("Identificador não pode ser igual ao nome do programa", token.getPosition());
 		}
 
 		// tipo expressão
@@ -511,7 +530,7 @@ public class Semantico implements Constants {
 		// tipo do id
 		String tipo2 = tabelaSimbolo.get(id);
 		if (tipo1 != tipo2) {
-			throw new SemanticError("Tipos incompatíveis", token.getPosition());
+			throw new SemanticError("Tipo " + ETipo.findDescFromTipoMSIL(tipo1) + " incompatível com " + ETipo.findDescFromTipoMSIL(tipo2) + ", esperado " + ETipo.findDescFromTipoMSIL(tipo2), token.getPosition());
 		}
 		codeAppend("stloc " + id);
 		codeAppend();
@@ -527,7 +546,7 @@ public class Semantico implements Constants {
 					codeAppend("stloc " + idAcao);
 				}
 			} else {
-				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.INT.getTipoMSIL(), token.getPosition());
+				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.INT.toString().toUpperCase(), token.getPosition());
 			}
 		} else if (tipo.equalsIgnoreCase(ETipo.FLOAT.getTipoMSIL())) {
 			if (idTipo == t_constanteFloat) {
@@ -536,7 +555,7 @@ public class Semantico implements Constants {
 					codeAppend("stloc " + idAcao);
 				}
 			} else {
-				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.FLOAT.getTipoMSIL(), token.getPosition());
+				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.FLOAT.toString().toUpperCase(), token.getPosition());
 			}
 		} else if (tipo.equalsIgnoreCase(ETipo.STRING.getTipoMSIL())) {
 			if (idTipo == t_constanteString) {
@@ -545,7 +564,7 @@ public class Semantico implements Constants {
 					codeAppend("stloc " + idAcao);
 				}
 			} else {
-				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.STRING.getTipoMSIL(), token.getPosition());
+				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.STRING.toString().toUpperCase(), token.getPosition());
 			}
 		} else if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
 			if (idTipo == t_pr_false) {
@@ -559,7 +578,7 @@ public class Semantico implements Constants {
 					codeAppend("stloc " + idAcao);
 				}
 			} else {
-				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.BOOLEAN.getTipoMSIL(), token.getPosition());
+				throw new SemanticError("Tipo " + getTipoFromLexico(idTipo) + " incompatível com " + ETipo.BOOLEAN.toString().toUpperCase(), token.getPosition());
 			}
 		}
  	}

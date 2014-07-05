@@ -37,4 +37,13 @@ public enum ETipo {
 		}
 		return "";
 	}
+	
+	public static String findDescFromTipoMSIL(String tipoMSIL) {
+		for (ETipo tipo : values()) {
+			if (tipo.getTipoMSIL().equalsIgnoreCase(tipoMSIL)) {
+				return tipo.toString();
+			}
+		}
+		return "";
+	}
 }

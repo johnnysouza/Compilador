@@ -31,7 +31,7 @@ public abstract class AcaoCompilar extends JButton implements Acao {
 		super();
 	}
 
-	public static void compilar(CompilerInterface frame, String nomeArquivo, String msgStatus) {
+	public static boolean compilar(CompilerInterface frame, String nomeArquivo, String msgStatus) {
 		Lexico lexico = new Lexico();
 		lexico.setInput(frame.getTextEditor().getText());
 		Sintatico sintatico = new Sintatico();
@@ -39,6 +39,7 @@ public abstract class AcaoCompilar extends JButton implements Acao {
 		try {
 			sintatico.parse(lexico, semantico);
 			frame.getTextMsg().setText(msgStatus);
+			return true;
 		} catch (LexicalError e) {
 			StringBuilder sb = new StringBuilder();
 			tratarLinhaErroCompilacao(sb, frame, e);
@@ -48,6 +49,7 @@ public abstract class AcaoCompilar extends JButton implements Acao {
 			}
 			sb.append(e.getMessage());
 			frame.getTextMsg().setText(sb.toString());
+			return false;
 		} catch (SyntaticError e) {
 			StringBuilder sb = new StringBuilder();
 			tratarLinhaErroCompilacao(sb, frame, e);
@@ -67,11 +69,13 @@ public abstract class AcaoCompilar extends JButton implements Acao {
 
 			sb.append(e.getMessage());
 			frame.getTextMsg().setText(sb.toString());
+			return false;
 		} catch (SemanticError e) {
 			StringBuilder sb = new StringBuilder();
 			tratarLinhaErroCompilacao(sb, frame, e);
 			sb.append(e.getMessage());
 			frame.getTextMsg().setText(sb.toString());
+			return false;
 		}
 
 	}
