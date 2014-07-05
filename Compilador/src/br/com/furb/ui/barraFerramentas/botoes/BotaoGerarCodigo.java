@@ -24,14 +24,18 @@ public class BotaoGerarCodigo extends JButton implements Acao {
 	@Override
 	public void executaAcao(CompilerInterface frame) {
 		if (!frame.getTextEditor().getText().isEmpty()) {
-			try {
-				boolean compSucesso = AcaoCompilar.compilar(frame, getFileName(frame), "\tCódigo objeto gerado com sucesso!");
-				if (compSucesso) {
-					AcaoSalvar.salvar(getFilePath(frame), AcaoCompilar.getSemantico().getCodigo().toString());
+			if (isProgramaSalvo(frame)) {
+				try {
+					boolean compSucesso = AcaoCompilar.compilar(frame, getFileName(frame), "\tCódigo objeto gerado com sucesso!");
+					if (compSucesso) {
+						AcaoSalvar.salvar(getFilePath(frame), AcaoCompilar.getSemantico().getCodigo().toString());
+					}
+				} catch (IOException e) {
+					System.err.println("ERRO FATAL!\nNão foi possível salvar o arquivo!");
+					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				System.err.println("ERRO FATAL!\nNão foi possível salvar o arquivo!");
-				e.printStackTrace();
+			} else {
+				frame.getTextMsg().setText("Salve o programa antes de prosseguir!");
 			}
 		} else {
 			frame.getTextMsg().setText("Nenhum programa para gerar código!");
@@ -47,6 +51,10 @@ public class BotaoGerarCodigo extends JButton implements Acao {
 	private String getFilePath(CompilerInterface frame) {
 		String filePath = frame.getLbFilePath().getText();
 		return filePath.substring(0, filePath.lastIndexOf(".") + 1).concat("il");
+	}
+
+	private boolean isProgramaSalvo(CompilerInterface frame) {
+		return !frame.getLbFilePath().getText().isEmpty();
 	}
 
 }
