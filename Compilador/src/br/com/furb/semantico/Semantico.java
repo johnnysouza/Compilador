@@ -18,7 +18,7 @@ public class Semantico implements Constants {
 	private String nomeArquivo;
 	private String operadorRelacional;
 	private int contRotulo;
-	private LabelsSelecao labels;
+	private Stack<String> pilhaRotulos;
 
 	public Semantico(String nomeArquivo) {
 		this.codigo = new StringBuilder();
@@ -28,7 +28,7 @@ public class Semantico implements Constants {
 		this.nomeArquivo = nomeArquivo;
 		operadorRelacional = "";
 		contRotulo = 0;
-		labels = new LabelsSelecao();
+		pilhaRotulos = new Stack<String>();
 	}
 
 	public void executeAction(int action, Token token) throws SemanticError {
@@ -446,7 +446,7 @@ public class Semantico implements Constants {
 			codeAppend("call string [mscorlib]System.Console::ReadLine()");
 			if (!tipo.equalsIgnoreCase(ETipo.STRING.toString())) {
 				codeAppend("call " + tipo
-						+ " [mscorlib]System." + tipo + "::Parse(string)");
+						+ " [mscorlib]System." + ETipo.findClasseFromTipoMSIL(tipo) + "::Parse(string)");
 				codeAppend("stloc " + id);
 				codeAppend();
 			}
@@ -496,34 +496,42 @@ public class Semantico implements Constants {
 
 	private void acao_31() throws SemanticError {
 		String tipo = pilhaTipo.pop();
-		if (tipo != ETipo.BOOLEAN.getTipoMSIL()) {
+		if (!tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
 			throw new SemanticError("Tipo incompativel para comando de selação, esperado " + ETipo.BOOLEAN.getTipoMSIL() + ", encontrado " + tipo);
 		}
 		String labelElse = "L" + contRotulo;
 		contRotulo++;
-		labels.setLabelElse(labelElse);
+		pilhaRotulos.push(labelElse);
 		codeAppend("brfalse " + labelElse);
 	}
 
 	private void acao_32() {
-		codeAppend(labels.getLabelSaida() + ":");
-		labels = new LabelsSelecao(); //garantir que limpou os labels para os próximos
+		codeAppend(pilhaRotulos.pop() + ":");
 	}
 
 	private void acao_33() {
+		String rotuloElse = pilhaRotulos.pop();
 		String labelSaida = "L" + contRotulo;
 		contRotulo++;
-		labels.setLabelSaida(labelSaida);
+		pilhaRotulos.push(labelSaida);
+		
 		codeAppend("br " + labelSaida);
-		codeAppend(labels.getLabelElse() + ":");
+		codeAppend(rotuloElse + ":");
 	}
 
 	private void acao_34() {
-		// TODO implementar
+		String rotuloDo = "L" + contRotulo;
+		contRotulo++;
+		pilhaRotulos.push(rotuloDo);
+		codeAppend(rotuloDo + ":");
 	}
 
-	private void acao_35() {
-		// TODO implementar
+	private void acao_35() throws SemanticError {
+		String tipo = pilhaTipo.pop();
+		if (!tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
+			throw new SemanticError("Tipo incompativel para comando de repetição, esperado " + ETipo.BOOLEAN.getTipoMSIL() + ", encontrado " + tipo);
+		}
+		codeAppend("brtrue " + pilhaRotulos.pop());
 	}
 
 	private void empilhaInt() {

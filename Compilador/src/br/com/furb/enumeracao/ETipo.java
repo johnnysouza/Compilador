@@ -28,4 +28,13 @@ public enum ETipo {
 	public String getClasse() {
 		return classe;
 	}
+	
+	public static String findClasseFromTipoMSIL(String tipoMSIL) {
+		for (ETipo tipo : values()) {
+			if (tipo.getTipoMSIL().equalsIgnoreCase(tipoMSIL)) {
+				return tipo.getClasse();
+			}
+		}
+		return "";
+	}
 }
