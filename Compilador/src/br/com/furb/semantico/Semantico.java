@@ -236,7 +236,7 @@ public class Semantico implements Constants {
 		String tipo2 = pilhaTipo.pop();
 
 		if (tipo1.equalsIgnoreCase(tipo2)) {
-			pilhaTipo.push(ETipo.BOOLEAN.toString());
+			pilhaTipo.push(ETipo.BOOLEAN.getTipoMSIL());
 			codeAppend("clt");
 		} else {
 			throw new SemanticError(
@@ -250,7 +250,7 @@ public class Semantico implements Constants {
 		String tipo2 = pilhaTipo.pop();
 
 		if (tipo1.equalsIgnoreCase(tipo2)) {
-			pilhaTipo.push(ETipo.BOOLEAN.toString());
+			pilhaTipo.push(ETipo.BOOLEAN.getTipoMSIL());
 			codeAppend("cgt");
 		} else {
 			throw new SemanticError(
@@ -263,7 +263,7 @@ public class Semantico implements Constants {
 		String tipo2 = pilhaTipo.pop();
 
 		if (tipo1.equalsIgnoreCase(tipo2)) {
-			pilhaTipo.push(ETipo.BOOLEAN.toString());
+			pilhaTipo.push(ETipo.BOOLEAN.getTipoMSIL());
 			codeAppend("ceq");
 		} else {
 			throw new SemanticError(
@@ -272,19 +272,19 @@ public class Semantico implements Constants {
 	}
 
 	private void acao_11(Token token) {
-		pilhaTipo.push(ETipo.BOOLEAN.toString());
+		pilhaTipo.push(ETipo.BOOLEAN.getTipoMSIL());
 		codeAppend("ldc.i4.1");
 	}
 
 	private void acao_12() {
-		pilhaTipo.push(ETipo.BOOLEAN.toString());
+		pilhaTipo.push(ETipo.BOOLEAN.getTipoMSIL());
 		codeAppend("ldc.i4.0");
 	}
 
 	private void acao_13(Token token) throws SemanticError {
 		String tipo = pilhaTipo.pop();
-		if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.toString())) {
-			pilhaTipo.push(ETipo.BOOLEAN.toString());
+		if (tipo.equalsIgnoreCase(ETipo.BOOLEAN.getTipoMSIL())) {
+			pilhaTipo.push(ETipo.BOOLEAN.getTipoMSIL());
 			codeAppend("ldc.i4.1");
 			codeAppend("xor");
 		} else {
@@ -468,7 +468,7 @@ public class Semantico implements Constants {
 
 			String tipo = tabelaSimbolo.get(id);
 			codeAppend("call string [mscorlib]System.Console::ReadLine()");
-			if (!tipo.equalsIgnoreCase(ETipo.STRING.toString())) {
+			if (!tipo.equalsIgnoreCase(ETipo.STRING.getTipoMSIL())) {
 				codeAppend("call " + tipo + " [mscorlib]System."
 						+ ETipo.findClasseFromTipoMSIL(tipo)
 						+ "::Parse(string)");
