@@ -504,7 +504,8 @@ public class Semantico implements Constants {
 	private void acao_28(Token token) throws SemanticError {
 		String id = token.getLexeme();
 		if (!tabelaSimbolo.containsKey(id)) {
-			throw new SemanticError("Identificador " + id + " não declarado", token.getPosition());
+			throw new SemanticError("Identificador (" + id
+					+ ") não declarado", token.getPosition());
 		}
 
 		if (id.equalsIgnoreCase(nomeArquivo)) {
@@ -518,7 +519,8 @@ public class Semantico implements Constants {
 	private void acao_29(Token token) throws SemanticError {
 		String id = listaIdentificadores.get(listaIdentificadores.size() - 1);
 		if (!tabelaSimbolo.containsKey(id)) {
-			throw new SemanticError("FUUUUU!!!!", token.getPosition());
+			throw new SemanticError("Identificador (" + id
+					+ ") não declarado", token.getPosition());
 		}
 
 		if (id.equalsIgnoreCase(nomeArquivo)) {
