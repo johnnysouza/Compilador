@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import br.com.furb.ui.CompilerInterface;
 import br.com.furb.ui.barraFerramentas.acao.Acao;
@@ -35,7 +36,10 @@ public class BotaoGerarCodigo extends JButton implements Acao {
 					e.printStackTrace();
 				}
 			} else {
-				frame.getTextMsg().setText("Salve o programa antes de prosseguir!");
+				int retorno = JOptionPane.showConfirmDialog(frame, "Deseja salvar o programa?", "Confirmação", JOptionPane.YES_NO_OPTION);
+				if (retorno == JOptionPane.YES_OPTION) {
+					new BotaoSalvar().executaAcao(frame);
+				}
 			}
 		} else {
 			frame.getTextMsg().setText("Nenhum programa para gerar código!");
