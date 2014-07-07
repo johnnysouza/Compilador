@@ -115,6 +115,7 @@ public class CompilerInterface extends JFrame {
 				btnNovo.executaAcao(getInstance());
 			}
 		});
+
 		btnNovo.setIcon(getImageIcon("newFile.png"));
 		btnNovo.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnNovo.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -352,7 +353,7 @@ public class CompilerInterface extends JFrame {
 	}
 
 	public ImageIcon getImageIcon(String nomeIcone) {
-		return new ImageIcon("Images/" + nomeIcone);
+		return new ImageIcon(this.getClass().getResource("/Images/" + nomeIcone));
 	}
 
 	public JLabel getLbFilePath() {
